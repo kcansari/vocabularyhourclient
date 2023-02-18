@@ -24,13 +24,7 @@ import {
   Divider,
   Menu,
 } from '@mui/material'
-import {
-  AccountCircle,
-  LocalLibrary,
-  Logout,
-  PersonAdd,
-  Settings,
-} from '@mui/icons-material'
+import { LocalLibrary, Logout, Settings } from '@mui/icons-material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import DrawerComponent from '../components/DrawerComponent'
 

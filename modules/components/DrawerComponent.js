@@ -15,7 +15,6 @@ export default function TemporaryDrawer(props) {
   const [state, setState] = React.useState({
     right: false,
   })
-  console.log(props)
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (

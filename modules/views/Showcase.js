@@ -1,66 +1,191 @@
-// import Typography from '@mui/material/Typography'
-// import { Box, Container, Grid, Paper, Button } from '@mui/material'
-// import {
-//   createTheme,
-//   responsiveFontSizes,
-//   ThemeProvider,
-//   styled,
-// } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from '@mui/material'
+import {
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@mui/material/styles'
 
-// let theme = createTheme()
-// theme = responsiveFontSizes(theme)
-
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }))
-
-// const Showcase = () => {
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <Container sx={{ mt: 12 }}>
-//         <Box sx={{ flexGrow: 1 }}>
-//           <Grid
-//             container
-//             direction='column'
-//             justifyContent='center'
-//             alignItems='center'
-//             spacing={{ xs: 2, md: 3 }}
-//             columns={{ xs: 4, sm: 8, md: 12 }}
-//             // sx={{ bgcolor: 'error.main' }}
-//           >
-//             <Grid item xs={2} sm={4} md={4}>
-//               <Item>
-//                 {' '}
-//                 <Typography variant='h1'>Vocabulary Hour</Typography>{' '}
-//               </Item>
-//             </Grid>
-//             <Grid item xs={2} sm={4} md={4}>
-//               <Item>
-//                 <Typography variant='h4'>Create Word Collection</Typography>
-//               </Item>
-//             </Grid>
-//             <Grid item xs={2} sm={4} md={4}>
-//               <Button variant='contained' size='large'>
-//                 Start
-//               </Button>
-//             </Grid>
-//           </Grid>
-//         </Box>
-//       </Container>
-//     </ThemeProvider>
-//   )
-// }
-
-// export default Showcase
-
-import { Box } from '@mui/material'
+import { PlayArrow } from '@mui/icons-material'
 
 const Showcase = () => {
-  return <Box sx={{ bgcolor: '#7B8FA1' }}>Showcase</Box>
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
+    palette: {
+      buttonColor: {
+        main: '#293462',
+        contrastText: '#fff',
+      },
+    },
+  })
+
+  theme.typography.h2 = {
+    [theme.breakpoints.up('xl')]: {
+      fontSize: '3.8rem',
+    },
+    [theme.breakpoints.between('lg', 'xl')]: {
+      fontSize: '3rem',
+    },
+    [theme.breakpoints.between('md', 'lg')]: {
+      fontSize: '2.2rem',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      fontSize: '2.7rem',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      fontSize: '2.2rem',
+    },
+  }
+
+  theme.typography.subtitle1 = {
+    fontSize: '1rem',
+
+    [theme.breakpoints.between('md', 'lg')]: {
+      fontSize: '0.8rem',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      fontSize: '0.9rem',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      fontSize: '0.8rem',
+    },
+  }
+
+  const TextXl = 6
+  const TextLg = 6
+  const TextMd = 6
+  const TextSm = 12
+  const TextXs = 12
+  const imgXl = 4
+  const imgLg = 4
+  const imgMd = 4
+  const imgSm = 4
+  const imgXs = 4
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid
+            container
+            direction='row'
+            justifyContent='space-evenly'
+            alignItems='center'
+            sx={{
+              bgcolor: '#7B8FA1',
+            }}
+          >
+            <Grid
+              container
+              item
+              xs={TextXs}
+              sm={TextSm}
+              md={TextMd}
+              lg={TextLg}
+              xl={TextXl}
+              justifyContent='center'
+              alignItems='center'
+              wrap='nowrap'
+              sx={{ mt: 5, mb: 5 }}
+            >
+              {/* <Typography>{`xl=${TextXl} lg=${TextLg} md=${TextMd} sm=${TextSm} xs=${TextXs}`}</Typography> */}
+              <Container>
+                <Stack
+                  direction='column'
+                  justifyContent='center'
+                  alignItems='center'
+                  spacing={{ xs: 6, sm: 4, md: 4 }}
+                >
+                  <Typography
+                    variant='h2'
+                    sx={{
+                      textTransform: 'uppercase',
+                      fontWeight: 'bold',
+                      color: '#143F6B',
+                    }}
+                  >
+                    Create word collection
+                  </Typography>
+                  <Typography
+                    variant='subtitle1'
+                    sx={{ fontStyle: 'oblique', color: '#E5E0FF' }}
+                  >
+                    Practise makes progress and do not forget that{' '}
+                    <Typography
+                      variant='subtitle1'
+                      sx={{
+                        fontStyle: 'oblique',
+                        color: '#E5E0FF',
+                        fontWeight: 'bold',
+                        display: 'inline',
+                      }}
+                    >
+                      the Rome wasn’t built in a day
+                    </Typography>
+                  </Typography>
+                  <Button
+                    color='buttonColor'
+                    size='large'
+                    sx={{ color: '#fff', px: 6 }}
+                    variant='contained'
+                    endIcon={<PlayArrow />}
+                  >
+                    Start
+                  </Button>
+                </Stack>
+              </Container>
+            </Grid>
+
+            <Grid
+              container
+              item
+              xs={imgXs}
+              sm={imgSm}
+              md={imgMd}
+              lg={imgLg}
+              xl={imgXl}
+              justifyContent='center'
+              alignItems='center'
+              wrap='nowrap'
+              sx={{ mt: 5, mb: 5 }}
+            >
+              {/* <Typography>{`xl=${imgXl} lg=${imgLg} md=${imgMd} sm=${imgSm} xs=${imgXs}`}</Typography> */}
+              <Box
+                component='img'
+                src='../../images/showcase.png'
+                alt='showcase'
+                sx={{
+                  maxWidth: {
+                    xs: '12rem',
+                    sm: '12rem',
+                    md: '12rem',
+                    lg: '14rem',
+                    xl: '15rem',
+                  },
+                  height: 'auto',
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </CssBaseline>
+    </ThemeProvider>
+  )
 }
 
 export default Showcase
