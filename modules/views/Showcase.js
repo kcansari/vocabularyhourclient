@@ -88,6 +88,7 @@ const Showcase = () => {
             alignItems='center'
             sx={{
               bgcolor: '#7B8FA1',
+              height: 700,
             }}
           >
             <Grid
