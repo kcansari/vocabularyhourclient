@@ -163,12 +163,12 @@ const Showcase = () => {
               justifyContent='center'
               alignItems='center'
               wrap='nowrap'
-              sx={{ mt: 5, mb: 5 }}
+              sx={{ mb: 5 }}
             >
               {/* <Typography>{`xl=${imgXl} lg=${imgLg} md=${imgMd} sm=${imgSm} xs=${imgXs}`}</Typography> */}
               <Box
                 component='img'
-                src='../../images/showcase.png'
+                src='../../images/vcb.png'
                 alt='showcase'
                 sx={{
                   maxWidth: {
@@ -179,6 +179,8 @@ const Showcase = () => {
                     xl: '15rem',
                   },
                   height: 'auto',
+                  color: '#FFF',
+                  mb: 6,
                 }}
               />
             </Grid>
