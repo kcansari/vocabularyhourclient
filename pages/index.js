@@ -3,7 +3,7 @@ import NavBar from '../modules/views/AppBar.js'
 import Showcase from '../modules/views/Showcase.js'
 import Features from '../modules/views/Features.js'
 import Testimonials from '../modules/views/Testimonials.js'
-import Pricing from '../modules/views/Pricing.js'
+import Contact from '../modules/views/Contact.js'
 import Footer from '../modules/views/Footer.js'
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
       <Showcase />
       <Features />
       <Testimonials />
-      <Pricing />
+      <Contact />
       <Footer />
     </Box>
   )

@@ -87,6 +87,7 @@ const Testimonials = () => {
                 indicators={'false'}
                 interval={7000}
                 duration={1000}
+                navButtonsAlwaysVisible={'true'}
                 indicatorContainerProps={{
                   style: {
                     marginTop: '50px', // 5

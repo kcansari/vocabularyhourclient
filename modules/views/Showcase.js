@@ -81,6 +81,7 @@ const Showcase = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline>
         <Box sx={{ flexGrow: 1 }}>
+          {' '}
           <Grid
             container
             direction='row'
@@ -104,7 +105,6 @@ const Showcase = () => {
               wrap='nowrap'
               sx={{ mt: 5, mb: 5 }}
             >
-              {/* <Typography>{`xl=${TextXl} lg=${TextLg} md=${TextMd} sm=${TextSm} xs=${TextXs}`}</Typography> */}
               <Container>
                 <Stack
                   direction='column'
@@ -127,22 +127,29 @@ const Showcase = () => {
                     sx={{ fontStyle: 'oblique', color: '#E5E0FF' }}
                   >
                     Practise makes progress and do not forget that{' '}
-                    <Typography
-                      variant='subtitle1'
+                    <Box
                       sx={{
                         fontStyle: 'oblique',
                         color: '#E5E0FF',
                         fontWeight: 'bold',
                         display: 'inline',
+                        typography: 'subtitle1',
                       }}
                     >
                       the Rome wasn’t built in a day
-                    </Typography>
+                    </Box>
                   </Typography>
                   <Button
                     color='buttonColor'
                     size='large'
-                    sx={{ color: '#fff', px: 6 }}
+                    sx={{
+                      color: '#fff',
+                      px: 6,
+                      '&:hover': {
+                        backgroundColor: '#3c52b2',
+                        color: '#fff',
+                      },
+                    }}
                     variant='contained'
                     endIcon={<PlayArrow />}
                   >
@@ -151,7 +158,6 @@ const Showcase = () => {
                 </Stack>
               </Container>
             </Grid>
-
             <Grid
               container
               item
