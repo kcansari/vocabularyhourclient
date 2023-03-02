@@ -10,11 +10,14 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { IconButton, ListSubheader } from '@mui/material'
 import { ArrowBack, Login, Menu } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export default function TemporaryDrawer(props) {
   const [state, setState] = React.useState({
     right: false,
   })
+  const router = useRouter()
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -45,14 +48,22 @@ export default function TemporaryDrawer(props) {
             <ListItemIcon>
               <ArrowBack sx={{ color: '#FFFF' }} />
             </ListItemIcon>
-            <ListItemText sx={{ color: '#FFFF' }} primary={'Vocabulary Hour'} />
+            <Link
+              href={'/'}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <ListItemText
+                sx={{ color: '#FFFF' }}
+                primary={'Vocabulary Hour'}
+              />
+            </Link>
           </ListItemButton>
         </ListItem>
         <Divider />
 
-        {['Features', 'References', 'Price', 'Contact'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {['Features', 'References', 'Contact'].map((text, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton href={`#${text.toLowerCase()}`}>
               <ListItemText sx={{ color: '#FFFF' }} primary={text} />
             </ListItemButton>
           </ListItem>
@@ -67,6 +78,7 @@ export default function TemporaryDrawer(props) {
               <Button
                 color='neutral'
                 variant='outlined'
+                onClick={() => router.push(`/account/login`)}
                 sx={{
                   // letterSpacing: '0.01px',
                   fontWeight: 'bold',
@@ -81,6 +93,7 @@ export default function TemporaryDrawer(props) {
               <Button
                 color='navy'
                 variant='contained'
+                onClick={() => router.push(`/account/signup`)}
                 sx={{
                   letterSpacing: '0.01px',
                   fontWeight: 'bold',
@@ -113,8 +126,14 @@ export default function TemporaryDrawer(props) {
           }
         >
           {['Profile', 'Settings', 'Logout'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  ;`${text}` !== 'Logout'
+                    ? router.push(`/account/${text.toLowerCase()}`)
+                    : true
+                }}
+              >
                 <ListItemText sx={{ color: '#FFFF' }} primary={text} />
               </ListItemButton>
             </ListItem>
