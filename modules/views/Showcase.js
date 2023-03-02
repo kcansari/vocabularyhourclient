@@ -6,13 +6,8 @@ import {
   Grid,
   Stack,
   Typography,
-  useTheme,
 } from '@mui/material'
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-} from '@mui/material/styles'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { PlayArrow } from '@mui/icons-material'
 
@@ -43,7 +38,7 @@ const Showcase = () => {
       fontSize: '3rem',
     },
     [theme.breakpoints.between('md', 'lg')]: {
-      fontSize: '2.2rem',
+      fontSize: '2.7rem',
     },
     [theme.breakpoints.between('sm', 'md')]: {
       fontSize: '2.7rem',
@@ -79,17 +74,22 @@ const Showcase = () => {
   const imgXs = 4
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline>
-        <Box sx={{ flexGrow: 1 }}>
-          {' '}
+      <>
+        <Box sx={{ width: '100%', height: '720px', display: 'flex' }}>
           <Grid
             container
-            direction='row'
-            justifyContent='space-evenly'
+            direction={{
+              xs: 'column-reverse',
+              sm: 'column-reverse',
+              md: 'column-reverse',
+              lg: 'row',
+              xl: 'row',
+            }}
+            justifyContent='center'
             alignItems='center'
+            wrap='nowrap'
             sx={{
               bgcolor: '#7B8FA1',
-              height: 700,
             }}
           >
             <Grid
@@ -103,7 +103,7 @@ const Showcase = () => {
               justifyContent='center'
               alignItems='center'
               wrap='nowrap'
-              sx={{ mt: 5, mb: 5 }}
+              sx={{ mb: 5 }}
             >
               <Container>
                 <Stack
@@ -186,13 +186,23 @@ const Showcase = () => {
                   },
                   height: 'auto',
                   color: '#FFF',
-                  mb: 6,
+                  mb: {
+                    sm: 2,
+                    md: 2,
+                    lg: 2,
+                    xl: 8,
+                  },
+                  mt: {
+                    xs: 6,
+                    sm: 6,
+                    md: 6,
+                  },
                 }}
               />
             </Grid>
           </Grid>
         </Box>
-      </CssBaseline>
+      </>
     </ThemeProvider>
   )
 }

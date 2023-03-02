@@ -8,7 +8,12 @@ import Footer from '../modules/views/Footer.js'
 
 export default function Home() {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+      }}
+    >
       <CssBaseline />
       <NavBar />
       <Showcase />

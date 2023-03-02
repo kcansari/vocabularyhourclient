@@ -58,10 +58,14 @@ const BrandsXs = 12
 const Testimonials = () => {
   return (
     <Box
+      id='references'
+      alignItems='center'
       sx={{
         bgcolor: '#FAD6A5',
-        flexGrow: 1,
-        height: 700,
+        width: '100%',
+        height: '720px',
+        display: 'flex',
+        flexWrap: 'wrap',
       }}
     >
       <CssBaseline>
@@ -71,7 +75,7 @@ const Testimonials = () => {
             direction='row'
             justifyContent='center'
             alignItems='center'
-            sx={{ height: 700 }}
+            wrap='wrap'
           >
             <Grid
               item
@@ -165,7 +169,8 @@ const Testimonials = () => {
               lg={BrandsLg}
               xl={BrandsXl}
               justifyContent='center'
-              alignItems={'center'}
+              alignItems='center'
+              wrap='wrap'
             >
               {brands.map((brand, i) => (
                 <Grid key={i} Item>

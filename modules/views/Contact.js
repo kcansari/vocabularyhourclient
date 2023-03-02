@@ -7,7 +7,6 @@ import {
   Container,
   Snackbar,
   IconButton,
-  Button,
 } from '@mui/material'
 import { Send, Close, RocketLaunch } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
@@ -51,24 +50,33 @@ const Contact = () => {
       setEmail('')
       setMessage('')
       setOpenSnack(true)
-      // console.log(
-      //   `Name: ${name}\nEmail: ${email}\nMessage: ${message}\nLoading: ${loading} `
-      // )
     }, 2200)
   }
 
   return (
     <Box
+      id='contact'
       sx={{
         bgcolor: '#EEE9DA',
         display: 'flex',
-        flexWrap: 'wrap',
-        height: '700px',
+        // flexWrap: 'wrap',
+        width: '100%',
+        height: '720px',
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      <Container>
+      <Container
+        sx={{
+          bgcolor: '#EEE9DA',
+          display: 'flex',
+          // flexWrap: 'wrap',
+          width: '100%',
+          height: '720px',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Grid container spacing={4}>
           <Grid
             container
