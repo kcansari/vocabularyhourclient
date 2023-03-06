@@ -43,7 +43,7 @@ function HideOnScroll(props) {
 
 function NavBar(props) {
   const [value, setValue] = React.useState()
-  const [auth, setAuth] = React.useState(true)
+  const [auth, setAuth] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
   const router = useRouter()
 
