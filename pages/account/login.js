@@ -91,8 +91,9 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordVisibility, setPasswordVisibility] = useState(false)
-  const { login, loginError, backDrop } = useContext(AuthContext)
-
+  const { login, loginError, backDrop, setSignUpError } =
+    useContext(AuthContext)
+  setSignUpError(null)
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
   }

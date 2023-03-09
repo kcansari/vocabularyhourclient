@@ -1,8 +1,12 @@
 import React from 'react'
 import {
+  Alert,
   Avatar,
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
+  Container,
   CssBaseline,
   Grid,
   IconButton,
@@ -90,8 +94,10 @@ const validationSchema = yup
   .required()
 
 function Signup() {
-  const [passwordVisibility, setPasswordVisibility] = React.useState(false)
-
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const { signUpUser, signUpError, backDrop, setLoginError } =
+    useContext(AuthContext)
+  setLoginError(null)
   const {
     register,
     handleSubmit,
@@ -105,9 +111,9 @@ function Signup() {
   }
 
   const onSubmit = (data) => {
-    // registerUser(data)
-    console.log(data)
+    signUpUser(data)
   }
+
   return (
     <ThemeProvider theme={themeLight}>
       <CssBaseline />
@@ -325,6 +331,23 @@ function Signup() {
             </Grid>
             {/* LINK */}
 
+            {/* ERROR */}
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: widthXs,
+                  sm: widthSm,
+                  md: widthMd,
+                  lg: widthLg,
+                  xl: widthXl,
+                },
+              }}
+            >
+              {signUpError && <BasicAlerts error={signUpError} />}
+            </Grid>
+            {/* ERROR */}
+
             {/* BUTTON */}
             <Grid
               container
@@ -366,6 +389,12 @@ function Signup() {
           {/* USERNAME & EMAIL & PASSWORD & CONFIRM PASSWORD & LINK & BUTTON  */}
         </Grid>
         {/* MAIN */}
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDrop}
+        >
+          <CircularProgress color='inherit' />
+        </Backdrop>
       </Box>
     </ThemeProvider>
   )
@@ -388,6 +417,16 @@ function Copyright(props) {
         </Stack>
       </Link>
     </Box>
+  )
+}
+
+function BasicAlerts({ error }) {
+  return (
+    <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
+      <Alert variant='outlined' severity='error'>
+        {error}
+      </Alert>
+    </Stack>
   )
 }
 
