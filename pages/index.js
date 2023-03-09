@@ -1,10 +1,10 @@
 import { Box, CssBaseline } from '@mui/material'
-import NavBar from '../modules/views/AppBar.js'
-import Showcase from '../modules/views/Showcase.js'
-import Features from '../modules/views/Features.js'
-import Testimonials from '../modules/views/Testimonials.js'
-import Contact from '../modules/views/Contact.js'
-import Footer from '../modules/views/Footer.js'
+import NavBar from '@/modules/views/AppBar.js'
+import Showcase from '@/modules/views/Showcase.js'
+import Features from '@/modules/views/Features.js'
+import Testimonials from '@/modules/views/Testimonials.js'
+import Contact from '@/modules/views/Contact.js'
+import Footer from '@/modules/views/Footer.js'
 
 export default function Home() {
   return (

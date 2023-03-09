@@ -14,12 +14,16 @@ import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import {
   ArrowBack,
   HowToReg,
-  PermIdentity,
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material'
 import Link from 'next/link'
 import { Stack } from '@mui/system'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import AuthContext from '@/context/AuthContext.js'
+import { useState, useEffect, useContext } from 'react'
+import * as yup from 'yup'
 
 const themeLight = createTheme({
   palette: {
@@ -42,7 +46,7 @@ const CustomTextField = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: '#A75D5D',
+      borderColor: '#143F6B',
     },
     '&:hover fieldset': {
       borderColor: 'black',
@@ -62,36 +66,55 @@ const widthXl = 450,
   widthSm = 300,
   widthXs = 300
 
-function Copyright(props) {
-  return (
-    <Box sx={{ mt: 4 }}>
-      {' '}
-      <Link
-        href={'/'}
-        style={{ textDecoration: 'none', color: 'inherit' }}
-        {...props}
-      >
-        <Stack direction='row' alignItems='center' gap={1}>
-          <ArrowBack sx={{ color: '#143F6B' }} />
-          <Typography variant='subtitle1' color='#143F6B' align='center'>
-            Vocabulary Hour
-          </Typography>
-        </Stack>
-      </Link>
-    </Box>
-  )
-}
+const emailRegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+
+const validationSchema = yup
+  .object({
+    username: yup
+      .string()
+      .required('Username is required')
+      .min(3, 'Username must be at least 3 characters'),
+    email: yup
+      .string()
+      .required('Email is required')
+      .matches(emailRegExp, 'Email is invalid.'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters'),
+    confirmPassword: yup
+      .string()
+      .required('Confirm Password is required')
+      .oneOf([yup.ref('password')], 'Passwords must match'),
+  })
+  .required()
 
 function Signup() {
   const [passwordVisibility, setPasswordVisibility] = React.useState(false)
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  })
+
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
+  }
+
+  const onSubmit = (data) => {
+    // registerUser(data)
+    console.log(data)
   }
   return (
     <ThemeProvider theme={themeLight}>
       <CssBaseline />
       <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -167,12 +190,14 @@ function Signup() {
             >
               <CustomTextField
                 margin='normal'
-                fullWidth
                 required
+                fullWidth
                 id='username'
                 label='Username'
                 name='username'
-                // autoComplete='text'
+                {...register('username')}
+                error={errors.username ? true : false}
+                helperText={errors.username?.message}
               />
             </Grid>
             {/* USERNAME */}
@@ -197,7 +222,10 @@ function Signup() {
                 id='email'
                 label='Email Address'
                 name='email'
-                // autoComplete='email'
+                autoComplete='email'
+                {...register('email')}
+                error={errors.email ? true : false}
+                helperText={errors.email?.message}
               />
             </Grid>
             {/* EMAIL */}
@@ -217,15 +245,16 @@ function Signup() {
             >
               <CustomTextField
                 margin='normal'
+                required
                 fullWidth
-                name='password'
-                label='Password'
                 id='password'
-                // autoComplete='new-password'
-                // value={password}
-                // onChange={(e) => setPassword(e.target.value)}
-                sx={{}}
+                label='Password'
+                name='password'
                 type={passwordVisibility ? 'text' : 'password'}
+                autoComplete='password'
+                {...register('password')}
+                error={errors.password ? true : false}
+                helperText={errors.password?.message}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -265,7 +294,10 @@ function Signup() {
                 label='Confirm Password'
                 name='confirmPassword'
                 type={passwordVisibility ? 'text' : 'password'}
-                // autoComplete='confirmPassword'
+                autoComplete='confirmPassword'
+                {...register('confirmPassword')}
+                error={errors.confirmPassword ? true : false}
+                helperText={errors.confirmPassword?.message}
               />
             </Grid>
             {/* CONFIRM PASSWORD */}
@@ -311,6 +343,7 @@ function Signup() {
             >
               <Button
                 fullWidth
+                type='submit'
                 color='buttonColor'
                 size='large'
                 sx={{
@@ -335,6 +368,26 @@ function Signup() {
         {/* MAIN */}
       </Box>
     </ThemeProvider>
+  )
+}
+
+function Copyright(props) {
+  return (
+    <Box sx={{ mt: 4 }}>
+      {' '}
+      <Link
+        href={'/'}
+        style={{ textDecoration: 'none', color: 'inherit' }}
+        {...props}
+      >
+        <Stack direction='row' alignItems='center' gap={1}>
+          <ArrowBack sx={{ color: '#143F6B' }} />
+          <Typography variant='subtitle1' color='#143F6B' align='center'>
+            Vocabulary Hour
+          </Typography>
+        </Stack>
+      </Link>
+    </Box>
   )
 }
 

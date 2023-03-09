@@ -5,9 +5,12 @@ import {
   VisibilityOff,
 } from '@mui/icons-material'
 import {
+  Alert,
   Avatar,
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   Container,
   CssBaseline,
   Grid,
@@ -17,7 +20,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import { useState, useContext } from 'react'
+import AuthContext from '@/context/AuthContext.js'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import LoginIcon from '@mui/icons-material/Login'
 import Link from 'next/link'
@@ -43,7 +47,7 @@ const CustomTextField = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: '#A75D5D',
+      borderColor: '#143F6B',
     },
     '&:hover fieldset': {
       borderColor: 'black',
@@ -84,10 +88,18 @@ function Copyright(props) {
 }
 
 function Login() {
-  const [passwordVisibility, setPasswordVisibility] = React.useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const { login, loginError, backDrop } = useContext(AuthContext)
 
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    login({ email, password })
   }
 
   return (
@@ -95,6 +107,7 @@ function Login() {
       <CssBaseline />
       <>
         <Box
+          component='form'
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -152,7 +165,7 @@ function Login() {
                 </Grid>
               </Grid>
 
-              {/* TEXT FIELDS */}
+              {/* EMAIL & PASSWORD & ERROR */}
               <Grid
                 container
                 item
@@ -181,12 +194,14 @@ function Login() {
                       label='Email Address'
                       name='email'
                       autoComplete='email'
-                      // value={email}
-                      // onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       sx={{ mb: 2 }}
                     />
                   </Container>
                 </Grid>
+                {/* EMAIL */}
+
                 {/* PASSWORD */}
                 <Grid
                   item
@@ -207,8 +222,8 @@ function Login() {
                       label='Password'
                       id='password'
                       autoComplete='new-password'
-                      // value={password}
-                      // onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       sx={{}}
                       type={passwordVisibility ? 'text' : 'password'}
                       InputProps={{
@@ -231,7 +246,29 @@ function Login() {
                     />
                   </Container>
                 </Grid>
+                {/* PASSWORD */}
+
+                {/* ERROR */}
+                <Grid
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                  }}
+                >
+                  <Container>
+                    {loginError && <BasicAlerts error={loginError} />}
+                  </Container>
+                </Grid>
+                {/* ERROR */}
               </Grid>
+              {/* EMAIL & PASSWORD & ERROR */}
+
               {/* BUTTONS */}
               <Grid
                 container
@@ -259,6 +296,7 @@ function Login() {
                       fullWidth
                       color='buttonColor'
                       size='large'
+                      onClick={handleSubmit}
                       sx={{
                         color: '#fff',
 
@@ -285,7 +323,7 @@ function Login() {
                 >
                   <Grid item>
                     {' '}
-                    <Link href='/'>
+                    <Link href='/account/forgotPassword'>
                       <Typography variant='body2'>Forgot password?</Typography>
                     </Link>
                   </Grid>
@@ -301,9 +339,25 @@ function Login() {
               <Copyright />
             </Grid>
           </Container>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={backDrop}
+          >
+            <CircularProgress color='inherit' />
+          </Backdrop>
         </Box>
       </>
     </ThemeProvider>
+  )
+}
+
+function BasicAlerts({ error }) {
+  return (
+    <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
+      <Alert variant='outlined' severity='error'>
+        {error}
+      </Alert>
+    </Stack>
   )
 }
 
