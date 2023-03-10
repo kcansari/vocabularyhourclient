@@ -11,6 +11,10 @@ export const AuthProvider = ({ children }) => {
   const [signUpError, setSignUpError] = useState(null)
   const router = useRouter()
 
+  useEffect(() => {
+    checkUserLoggedIn()
+  }, [])
+
   // Login user
   const login = async ({ email, password }) => {
     setBackDrop(true)
@@ -65,6 +69,29 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  // Check if user is logged in
+  const checkUserLoggedIn = async (user) => {
+    const res = await fetch(`${LOCAL_URL}/api/user`)
+    const data = await res.json()
+
+    if (res.ok) {
+      setUser(data.username)
+    } else {
+      setUser(null)
+    }
+  }
+
+  //logout user
+  const logout = async () => {
+    const res = await fetch(`${LOCAL_URL}/api/logout`, {
+      method: 'POST',
+    })
+    if (res.ok) {
+      setUser(null)
+      router.push('/')
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -75,6 +102,8 @@ export const AuthProvider = ({ children }) => {
         signUpError,
         setSignUpError,
         setLoginError,
+        user,
+        logout,
       }}
     >
       {children}

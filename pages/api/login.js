@@ -20,7 +20,6 @@ export default async (req, res) => {
     })
 
     const data = await backendRes.json()
-    // console.log(data)
 
     if (backendRes.ok) {
       // Set cookie

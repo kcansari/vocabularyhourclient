@@ -25,6 +25,8 @@ import { LocalLibrary, Logout, Settings } from '@mui/icons-material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 import DrawerComponent from '../components/DrawerComponent'
+import AuthContext from '@/context/AuthContext.js'
+import { useState, useEffect, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -42,9 +44,10 @@ function HideOnScroll(props) {
 }
 
 function NavBar(props) {
-  const [value, setValue] = React.useState()
-  const [auth, setAuth] = React.useState(false)
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [value, setValue] = useState()
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const { user, logout } = useContext(AuthContext)
   const router = useRouter()
 
   const theme = createTheme({
@@ -69,10 +72,6 @@ function NavBar(props) {
     },
   })
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked)
-  }
-
   const tabsHandler = (event, value) => {
     setValue(value)
   }
@@ -83,6 +82,10 @@ function NavBar(props) {
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    logout()
   }
 
   return (
@@ -102,54 +105,55 @@ function NavBar(props) {
               <UltraResponsiveGrid />
 
               {/* TAB SECTION */}
-
-              <Grid
-                item
-                sm={6}
-                md={5}
-                lg={6}
-                xl={6}
-                sx={{
-                  // bgcolor: '#FFee',
-                  display: {
-                    xs: 'none',
-                    sm: 'inline',
-                    md: 'inline',
-                    lg: 'inline',
-                    xl: 'inline',
-                  },
-                }}
-              >
-                <Tabs
-                  indicatorColor='text'
-                  textColor='inherit'
-                  value={value}
-                  onChange={tabsHandler}
-                  centered
+              {router.pathname === '/' && (
+                <Grid
+                  item
+                  sm={6}
+                  md={5}
+                  lg={6}
+                  xl={6}
+                  sx={{
+                    // bgcolor: '#FFee',
+                    display: {
+                      xs: 'none',
+                      sm: 'inline',
+                      md: 'inline',
+                      lg: 'inline',
+                      xl: 'inline',
+                    },
+                  }}
                 >
-                  <a
-                    href='#features'
-                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  <Tabs
+                    indicatorColor='text'
+                    textColor='inherit'
+                    value={value}
+                    onChange={tabsHandler}
+                    centered
                   >
-                    <Tab label='Features' />
-                  </a>
-                  <a
-                    href='#references'
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                  >
-                    <Tab label='References' />
-                  </a>
-                  <a
-                    href='#contact'
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                  >
-                    <Tab label='Contact' />
-                  </a>
-                </Tabs>
-              </Grid>
+                    <a
+                      href='#features'
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <Tab label='Features' />
+                    </a>
+                    <a
+                      href='#references'
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <Tab label='References' />
+                    </a>
+                    <a
+                      href='#contact'
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <Tab label='Contact' />
+                    </a>
+                  </Tabs>
+                </Grid>
+              )}
+              {/* TAB SECTION */}
 
               {/* BUTTON SECTION */}
-
               <Grid
                 item
                 sm={2}
@@ -167,7 +171,7 @@ function NavBar(props) {
                   },
                 }}
               >
-                {auth ? (
+                {user !== null ? (
                   <Stack
                     direction='row'
                     spacing={{ xs: 0.5, sm: 1, md: 1 }}
@@ -190,7 +194,7 @@ function NavBar(props) {
                         aria-haspopup='true'
                         aria-expanded={open ? 'true' : undefined}
                       >
-                        <Avatar sx={{ width: 32, height: 32 }}>K</Avatar>
+                        <Avatar {...stringAvatar(`${user}`)} />
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -240,7 +244,7 @@ function NavBar(props) {
                         </ListItemIcon>
                         Settings
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>
+                      <MenuItem onClick={handleLogout}>
                         <ListItemIcon>
                           <Logout fontSize='small' />
                         </ListItemIcon>
@@ -273,7 +277,7 @@ function NavBar(props) {
                   },
                 }}
               >
-                <DrawerComponent auth={auth} />
+                <DrawerComponent auth={user} />
               </Grid>
             </Grid>
           </Toolbar>
@@ -376,6 +380,46 @@ function MyResponsiveButtons() {
       </Button>
     </>
   )
+}
+
+function stringToColor(string) {
+  let hash = 0
+  let i
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  let color = '#'
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff
+    color += `00${value.toString(16)}`.slice(-2)
+  }
+  /* eslint-enable no-bitwise */
+
+  return color
+}
+
+function stringAvatar(name) {
+  const words = name.split(' ')
+
+  if (words[0][0] !== undefined && words?.[1]?.[0] !== undefined) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${words[0][0]}${words[1][0]}`,
+    }
+  } else if (words[0][0] !== undefined && words?.[1]?.[0] === undefined) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${words[0][0]}`,
+    }
+  }
 }
 
 export default NavBar

@@ -12,11 +12,15 @@ import { IconButton, ListSubheader } from '@mui/material'
 import { ArrowBack, Login, Menu } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import AuthContext from '@/context/AuthContext.js'
+import { useState, useContext } from 'react'
 
 export default function TemporaryDrawer(props) {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     right: false,
   })
+
+  const { logout } = useContext(AuthContext)
   const router = useRouter()
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -61,16 +65,17 @@ export default function TemporaryDrawer(props) {
         </ListItem>
         <Divider />
 
-        {['Features', 'References', 'Contact'].map((text, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton href={`#${text.toLowerCase()}`}>
-              <ListItemText sx={{ color: '#FFFF' }} primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {router.pathname === '/' &&
+          ['Features', 'References', 'Contact'].map((text, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton href={`#${text.toLowerCase()}`}>
+                <ListItemText sx={{ color: '#FFFF' }} primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </List>
       <Divider />
-      {props.auth === false ? (
+      {props.auth === null ? (
         <List>
           {' '}
           <ListItem disablePadding>
@@ -131,7 +136,7 @@ export default function TemporaryDrawer(props) {
                 onClick={() => {
                   ;`${text}` !== 'Logout'
                     ? router.push(`/account/${text.toLowerCase()}`)
-                    : true
+                    : logout()
                 }}
               >
                 <ListItemText sx={{ color: '#FFFF' }} primary={text} />
