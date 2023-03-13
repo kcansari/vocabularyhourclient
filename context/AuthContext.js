@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { LOCAL_URL } from '@/config/index'
+import { TroubleshootOutlined } from '@mui/icons-material'
 
 const AuthContext = createContext()
 
@@ -9,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loginError, setLoginError] = useState(null)
   const [signUpError, setSignUpError] = useState(null)
+  const [resendVerifyMessage, setResendVerifyMessage] = useState(null)
+  const [openSnack, setOpenSnack] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -70,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   // Check if user is logged in
-  const checkUserLoggedIn = async (user) => {
+  const checkUserLoggedIn = async () => {
     const res = await fetch(`${LOCAL_URL}/api/user`)
     const data = await res.json()
 
@@ -92,6 +95,30 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  // Resend verify link
+  const resendVerifyLink = async (userId) => {
+    setBackDrop(true)
+    const res = await fetch(`${LOCAL_URL}/api/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userId),
+    })
+
+    const data = await res.json()
+
+    if (res.ok) {
+      setBackDrop(false)
+      setOpenSnack(true)
+      setResendVerifyMessage(null)
+    } else {
+      setBackDrop(false)
+      setOpenSnack(true)
+      setResendVerifyMessage(data)
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -104,6 +131,10 @@ export const AuthProvider = ({ children }) => {
         setLoginError,
         user,
         logout,
+        resendVerifyLink,
+        resendVerifyMessage,
+        openSnack,
+        setOpenSnack,
       }}
     >
       {children}

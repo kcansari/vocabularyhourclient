@@ -8,10 +8,16 @@ import {
   Typography,
 } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useContext } from 'react'
+import AuthContext from '@/context/AuthContext.js'
+import { useRouter } from 'next/router'
 
 import { PlayArrow } from '@mui/icons-material'
 
 const Showcase = () => {
+  const { user } = useContext(AuthContext)
+  const router = useRouter()
+
   const theme = createTheme({
     breakpoints: {
       values: {
@@ -142,6 +148,11 @@ const Showcase = () => {
                   <Button
                     color='buttonColor'
                     size='large'
+                    onClick={
+                      user === null
+                        ? () => router.push(`/account/signup`)
+                        : () => router.push(`/account/profile`)
+                    }
                     sx={{
                       color: '#fff',
                       px: 6,

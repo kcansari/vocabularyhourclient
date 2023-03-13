@@ -26,7 +26,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 import DrawerComponent from '../components/DrawerComponent'
 import AuthContext from '@/context/AuthContext.js'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
