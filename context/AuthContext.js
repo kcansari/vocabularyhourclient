@@ -12,6 +12,8 @@ export const AuthProvider = ({ children }) => {
   const [signUpError, setSignUpError] = useState(null)
   const [resendVerifyMessage, setResendVerifyMessage] = useState(null)
   const [openSnack, setOpenSnack] = useState(false)
+  const [respondForgotPassword, setRespondForgotPassword] = useState(null)
+  const [openMessage, setOpenMessage] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -119,6 +121,33 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  // Forgot password
+  const forgotPassword = async (email) => {
+    setBackDrop(true)
+    const res = await fetch(`${LOCAL_URL}/api/forgotpassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    })
+
+    const data = await res.json()
+
+    if (res.ok) {
+      setRespondForgotPassword(data.result.message)
+      setBackDrop(false)
+      setOpenMessage(true)
+    } else {
+      setBackDrop(false)
+      setRespondForgotPassword(
+        'There is an error, please try again after a while later'
+      )
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -135,6 +164,10 @@ export const AuthProvider = ({ children }) => {
         resendVerifyMessage,
         openSnack,
         setOpenSnack,
+        forgotPassword,
+        respondForgotPassword,
+        openMessage,
+        setOpenMessage,
       }}
     >
       {children}

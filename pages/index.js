@@ -8,9 +8,11 @@ import Footer from '@/modules/views/Footer.js'
 import AuthContext from '@/context/AuthContext.js'
 import { useState, useEffect, useContext } from 'react'
 export default function Home() {
-  const { setLoginError, setSignUpError } = useContext(AuthContext)
+  const { setLoginError, setSignUpError, setOpenMessage } =
+    useContext(AuthContext)
   setLoginError(null)
   setSignUpError(null)
+  setOpenMessage(false)
   return (
     <Box
       sx={{

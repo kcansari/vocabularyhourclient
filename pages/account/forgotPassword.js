@@ -1,8 +1,12 @@
-import { ArrowBack, MailLock } from '@mui/icons-material'
+import { ArrowBack, Close, MailLock } from '@mui/icons-material'
 import {
+  Alert,
   Avatar,
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
+  Collapse,
   Container,
   CssBaseline,
   Grid,
@@ -13,10 +17,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import React from 'react'
+
+import { useState, useContext, useEffect } from 'react'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import LoginIcon from '@mui/icons-material/Login'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
 import Link from 'next/link'
+import AuthContext from '@/context/AuthContext.js'
 
 const themeLight = createTheme({
   palette: {
@@ -79,11 +88,52 @@ function Copyright(props) {
   )
 }
 
+const emailRegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+const validationSchema = yup
+  .object({
+    email: yup
+      .string()
+      .required('Email is required')
+      .matches(emailRegExp, 'Email is invalid.'),
+  })
+  .required()
+
 function ForgotPassword() {
+  const {
+    forgotPassword,
+    respondForgotPassword,
+    backDrop,
+    openMessage,
+    setOpenMessage,
+  } = useContext(AuthContext)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  })
+
+  const onSubmit = (data) => {
+    forgotPassword(data.email)
+  }
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset({ email: '' })
+    }
+  }, [formState, reset])
+
   return (
     <ThemeProvider theme={themeLight}>
       <CssBaseline />
       <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -184,10 +234,41 @@ function ForgotPassword() {
                   label='Email Address'
                   name='email'
                   autoComplete='email'
-                  helperText='Please enter your email'
+                  {...register('email')}
+                  error={errors.email ? true : false}
+                  helperText={errors.email?.message}
                 />
               </Grid>
               {/* TEXT AREA */}
+
+              {/* ERROR */}
+              <Grid item>
+                <Collapse in={openMessage}>
+                  <Alert
+                    severity={
+                      respondForgotPassword ===
+                      'This email address is not found'
+                        ? 'error'
+                        : 'success'
+                    }
+                    action={
+                      <IconButton
+                        aria-label='close'
+                        color='inherit'
+                        size='small'
+                        onClick={() => {
+                          setOpenMessage(false)
+                        }}
+                      >
+                        <Close fontSize='inherit' />
+                      </IconButton>
+                    }
+                  >
+                    {openMessage && respondForgotPassword}
+                  </Alert>
+                </Collapse>
+              </Grid>
+              {/* ERROR */}
 
               {/* BUTTON */}
               <Grid
@@ -208,6 +289,7 @@ function ForgotPassword() {
                   fullWidth
                   color='buttonColor'
                   size='large'
+                  type='submit'
                   sx={{
                     color: '#fff',
 
@@ -229,6 +311,12 @@ function ForgotPassword() {
           </Grid>
           {/* MAIN */}
         </Container>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDrop}
+        >
+          <CircularProgress color='inherit' />
+        </Backdrop>
       </Box>
     </ThemeProvider>
   )
