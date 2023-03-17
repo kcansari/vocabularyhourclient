@@ -1,6 +1,6 @@
 import React from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
+import { Box, CssBaseline, Stack } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
@@ -53,11 +53,9 @@ function Profile({ user }) {
   }
 
   return (
-    <>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       <NavBar />
-      <ThemeProvider theme={themeLight}>
-        <CssBaseline />
-
+      <Box>
         {user.verified ? (
           <ProfileTable user={user} />
         ) : (
@@ -70,8 +68,8 @@ function Profile({ user }) {
             openSnack={openSnack}
           />
         )}
-      </ThemeProvider>
-    </>
+      </Box>
+    </Box>
   )
 }
 

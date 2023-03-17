@@ -92,7 +92,7 @@ function NavBar(props) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HideOnScroll {...props}>
-        <AppBar sx={{ bgcolor: '#567189' }}>
+        <AppBar position='sticky' sx={{ bgcolor: '#567189' }}>
           <Toolbar disableGutters>
             <Grid
               container
