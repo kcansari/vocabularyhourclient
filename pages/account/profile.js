@@ -1,14 +1,15 @@
 import React from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { CssBaseline, IconButton } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
-import { Close, MailLock, RocketLaunch } from '@mui/icons-material'
 import AuthContext from '@/context/AuthContext.js'
-import { useState, useEffect, useContext } from 'react'
+import WordContext from '@/context/WordContext'
+import { useContext, useEffect } from 'react'
 import Verify from '@/modules/views/Verify'
 import ProfileTable from '@/modules/views/ProfileTable'
+import { useRouter } from 'next/router'
 
 const themeLight = createTheme({
   palette: {
@@ -23,6 +24,7 @@ const themeLight = createTheme({
 })
 
 function Profile({ user }) {
+  const router = useRouter()
   const {
     resendVerifyLink,
     backDrop,
@@ -30,6 +32,12 @@ function Profile({ user }) {
     openSnack,
     setOpenSnack,
   } = useContext(AuthContext)
+
+  const { status } = useContext(WordContext)
+
+  useEffect(() => {
+    router.replace(router.asPath)
+  }, [status])
 
   const submitHandler = (e) => {
     e.preventDefault()

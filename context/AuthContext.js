@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { LOCAL_URL } from '@/config/index'
-import { TroubleshootOutlined } from '@mui/icons-material'
 
 const AuthContext = createContext()
 

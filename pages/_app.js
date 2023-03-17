@@ -1,10 +1,13 @@
 import '../styles/globals.css'
 import { AuthProvider } from '@/context/AuthContext'
+import { WordProvider } from '@/context/WordContext'
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <WordProvider>
+        <Component {...pageProps} />
+      </WordProvider>
     </AuthProvider>
   )
 }
