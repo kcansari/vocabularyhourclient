@@ -1,4 +1,3 @@
-import cookie from 'cookie'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
 
@@ -7,7 +6,6 @@ export default async (req, res) => {
   if (req.method === 'POST') {
     const { name, meaning } = req.body
     const { token } = parseCookies(req)
-    // const { token } = cookie.parse(req.headers.cookie)
 
     const backendRes = await fetch(`${API_URL}/api/words`, {
       method: 'POST',
@@ -21,7 +19,7 @@ export default async (req, res) => {
       }),
     })
 
-    const data = await backendRes.json()
+    await backendRes.json()
 
     if (backendRes.ok) {
       res

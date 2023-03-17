@@ -1,5 +1,7 @@
 import {
   AddCircleOutline,
+  BorderColorOutlined,
+  DeleteOutlineOutlined,
   FirstPage,
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -20,9 +22,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useTheme } from '@mui/material/styles'
 import DialogComponent from './DialogComponent'
+import WordContext from '@/context/WordContext'
 
 function TablePaginationActions(props) {
   const theme = useTheme()
@@ -86,15 +89,13 @@ function TablePaginationActions(props) {
   )
 }
 
-function createData(name, calories, fat) {
-  return { name, calories, fat }
-}
-
 function TableComponent({ user }) {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [openDialog, setOpenDialog] = React.useState(false)
-  const [openAlert, setOpenAlert] = React.useState(false)
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [openAlert, setOpenAlert] = useState(false)
+
+  const { deleteWord } = useContext(WordContext)
 
   const handleClickOpen = () => {
     setOpenDialog(true)
@@ -114,6 +115,10 @@ function TableComponent({ user }) {
     setPage(newPage)
   }
 
+  const handleClickDelete = (e) => {
+    e.preventDefault()
+    deleteWord(e.currentTarget.id)
+  }
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
@@ -128,6 +133,7 @@ function TableComponent({ user }) {
               <TableCell>Number</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Meaning</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -149,6 +155,27 @@ function TableComponent({ user }) {
                 </TableCell>
                 <TableCell style={{ width: 160 }}>{name}</TableCell>
                 <TableCell style={{ width: 160 }}>{meaning}</TableCell>
+                <TableCell>
+                  {' '}
+                  <Tooltip
+                    title={<Typography variant='caption'>Edit</Typography>}
+                  >
+                    <IconButton aria-label='edit' onClick={handleClickOpen}>
+                      <BorderColorOutlined />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
+                    title={<Typography variant='caption'>Delete</Typography>}
+                  >
+                    <IconButton
+                      aria-label='delete'
+                      id={name}
+                      onClick={handleClickDelete}
+                    >
+                      <DeleteOutlineOutlined />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             ))}
 

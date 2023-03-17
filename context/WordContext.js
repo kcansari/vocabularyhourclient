@@ -22,7 +22,7 @@ export const WordProvider = ({ children }) => {
   // Add a new word
   const addNewWord = async (name, meaning) => {
     setBackDrop(true)
-    const res = await fetch(`${LOCAL_URL}/api/add`, {
+    const res = await fetch(`${LOCAL_URL}/api/word/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +38,22 @@ export const WordProvider = ({ children }) => {
     setBackDrop(false)
   }
 
+  // Delete a word
+  const deleteWord = async (word) => {
+    const res = await fetch(`${LOCAL_URL}/api/word/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        word,
+      }),
+    })
+
+    const data = await res.json()
+    setStatus(data)
+  }
+
   return (
     <WordContext.Provider
       value={{
@@ -45,6 +61,7 @@ export const WordProvider = ({ children }) => {
         backDrop,
         setBackDrop,
         status,
+        deleteWord,
       }}
     >
       {children}
