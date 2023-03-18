@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  CssBaseline,
   Grid,
   IconButton,
   LinearProgress,
@@ -49,6 +50,7 @@ function Verify({
 
   return (
     <ThemeProvider theme={themeLight}>
+      <CssBaseline />
       <Box
         sx={{
           display: 'flex',

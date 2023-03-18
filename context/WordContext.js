@@ -37,6 +37,25 @@ export const WordProvider = ({ children }) => {
     setStatus(data)
     setBackDrop(false)
   }
+  // Add a new word
+  const editWord = async (name, meaning, currentName) => {
+    setBackDrop(true)
+    const res = await fetch(`${LOCAL_URL}/api/word/edit`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        meaning,
+        currentName,
+      }),
+    })
+
+    const data = await res.json()
+    setStatus(data)
+    setBackDrop(false)
+  }
 
   // Delete a word
   const deleteWord = async (word) => {
@@ -62,6 +81,7 @@ export const WordProvider = ({ children }) => {
         setBackDrop,
         status,
         deleteWord,
+        editWord,
       }}
     >
       {children}

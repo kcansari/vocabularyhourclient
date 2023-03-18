@@ -93,12 +93,29 @@ function TableComponent({ user }) {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [openDialog, setOpenDialog] = useState(false)
+  const [dialogContent, setDialogContent] = useState({ content: 'empty' })
   const [openAlert, setOpenAlert] = useState(false)
+  const [name, setName] = useState(null)
+  const [meaning, setMeaning] = useState(null)
+  const [currentName, setCurrentName] = useState(null)
 
   const { deleteWord } = useContext(WordContext)
 
   const handleClickOpen = () => {
     setOpenDialog(true)
+    setDialogContent({ content: 'add' })
+    setName(null)
+    setMeaning(null)
+    setOpenAlert(false)
+  }
+  const handleClickEdit = (e) => {
+    setOpenDialog(true)
+    setCurrentName(e.currentTarget.name)
+    setName(e.currentTarget.name)
+    setMeaning(e.currentTarget.id)
+    setDialogContent({
+      content: 'edit',
+    })
     setOpenAlert(false)
   }
 
@@ -160,7 +177,12 @@ function TableComponent({ user }) {
                   <Tooltip
                     title={<Typography variant='caption'>Edit</Typography>}
                   >
-                    <IconButton aria-label='edit' onClick={handleClickOpen}>
+                    <IconButton
+                      aria-label='edit'
+                      name={name}
+                      id={meaning}
+                      onClick={handleClickEdit}
+                    >
                       <BorderColorOutlined />
                     </IconButton>
                   </Tooltip>
@@ -219,6 +241,12 @@ function TableComponent({ user }) {
         setOpenDialog={setOpenDialog}
         openAlert={openAlert}
         setOpenAlert={setOpenAlert}
+        dialogContent={dialogContent}
+        name={name}
+        setName={setName}
+        meaning={meaning}
+        setMeaning={setMeaning}
+        currentName={currentName}
       />
     </>
   )

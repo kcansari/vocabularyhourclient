@@ -53,11 +53,14 @@ function DialogComponent({
   setOpenDialog,
   openAlert,
   setOpenAlert,
+  dialogContent,
+  name,
+  setName,
+  meaning,
+  setMeaning,
+  currentName,
 }) {
-  const [name, setName] = useState(null)
-  const [meaning, setMeaning] = useState(null)
-
-  const { addNewWord, backDrop, status } = useContext(WordContext)
+  const { addNewWord, backDrop, status, editWord } = useContext(WordContext)
 
   const handleClose = () => {
     setOpenDialog(false)
@@ -65,8 +68,10 @@ function DialogComponent({
     setMeaning(null)
   }
   const handleSave = () => {
-    if (name !== null && meaning !== null) {
+    if (dialogContent.content === 'add') {
       addNewWord(name, meaning)
+    } else if (dialogContent.content === 'edit') {
+      editWord(name, meaning, currentName)
     }
   }
 
@@ -82,7 +87,7 @@ function DialogComponent({
     <ThemeProvider theme={theme}>
       <Dialog open={openDialog} onClose={handleClose} fullWidth='md'>
         <DialogTitle>
-          Add a New Word{' '}
+          {dialogContent.content === 'add' ? 'Add a New Word' : 'Edit the word'}
           <IconButton
             aria-label='close'
             onClick={handleClose}
@@ -110,6 +115,7 @@ function DialogComponent({
             onChange={(e) => setName(e.target.value)}
             fullWidth
           />
+
           <CustomTextField
             autoFocus
             margin='dense'
