@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [openSnack, setOpenSnack] = useState(false)
   const [respondForgotPassword, setRespondForgotPassword] = useState(null)
   const [openMessage, setOpenMessage] = useState(false)
+  const [editRespond, setEditRespond] = useState({})
   const router = useRouter()
 
   useEffect(() => {
@@ -147,6 +148,32 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  // Edit profile settings
+  const manageAccount = async (data) => {
+    setBackDrop(true)
+    const res = await fetch(`${LOCAL_URL}/api/settings`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: data.username,
+        password: data.password,
+      }),
+    })
+
+    const serverData = await res.json()
+
+    if (res.ok) {
+      setBackDrop(false)
+      setEditRespond(serverData)
+      setUser(serverData.data.username)
+    } else {
+      setBackDrop(false)
+      setEditRespond(serverData)
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -167,6 +194,8 @@ export const AuthProvider = ({ children }) => {
         respondForgotPassword,
         openMessage,
         setOpenMessage,
+        manageAccount,
+        editRespond,
       }}
     >
       {children}

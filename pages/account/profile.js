@@ -1,6 +1,5 @@
 import React from 'react'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { Box, CssBaseline, Stack } from '@mui/material'
+import { Box } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
@@ -10,18 +9,6 @@ import { useContext, useEffect } from 'react'
 import Verify from '@/modules/views/Verify'
 import ProfileTable from '@/modules/views/ProfileTable'
 import { useRouter } from 'next/router'
-
-const themeLight = createTheme({
-  palette: {
-    background: {
-      default: '#CFB997',
-    },
-    buttonColor: {
-      main: '#293462',
-      contrastText: '#fff',
-    },
-  },
-})
 
 function Profile({ user }) {
   const router = useRouter()

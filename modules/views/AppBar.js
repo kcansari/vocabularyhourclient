@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   Toolbar,
   AppBar,
@@ -26,7 +25,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 import DrawerComponent from '../components/DrawerComponent'
 import AuthContext from '@/context/AuthContext.js'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -47,7 +46,7 @@ function NavBar(props) {
   const [value, setValue] = useState()
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout, editRespond } = useContext(AuthContext)
   const router = useRouter()
 
   const theme = createTheme({
@@ -87,6 +86,10 @@ function NavBar(props) {
   const handleLogout = () => {
     logout()
   }
+
+  useEffect(() => {
+    router.replace(router.asPath)
+  }, [user])
 
   return (
     <ThemeProvider theme={theme}>
