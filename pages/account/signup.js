@@ -94,9 +94,14 @@ const validationSchema = yup
 
 function Signup() {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
+
   const { signUpUser, signUpError, backDrop, setLoginError } =
     useContext(AuthContext)
-  setLoginError(null)
+
+  useEffect(() => {
+    setLoginError(null)
+  }, [setLoginError])
+
   const {
     register,
     handleSubmit,

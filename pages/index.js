@@ -10,9 +10,13 @@ import { useState, useEffect, useContext } from 'react'
 export default function Home() {
   const { setLoginError, setSignUpError, setOpenMessage } =
     useContext(AuthContext)
-  setLoginError(null)
-  setSignUpError(null)
-  setOpenMessage(false)
+
+  useEffect(() => {
+    setLoginError(null)
+    setSignUpError(null)
+    setOpenMessage(false)
+  }, [setLoginError, setSignUpError, setOpenMessage])
+
   return (
     <Box
       sx={{

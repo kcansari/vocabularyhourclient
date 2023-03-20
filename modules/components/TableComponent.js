@@ -21,6 +21,7 @@ import {
   TableFooter,
   Tooltip,
   Typography,
+  Container,
 } from '@mui/material'
 import { useState, useContext, useEffect } from 'react'
 import { useTheme } from '@mui/material/styles'
@@ -95,8 +96,8 @@ function TableComponent({ user }) {
   const [openDialog, setOpenDialog] = useState(false)
   const [dialogContent, setDialogContent] = useState({ content: 'empty' })
   const [openAlert, setOpenAlert] = useState(false)
-  const [name, setName] = useState(null)
-  const [meaning, setMeaning] = useState(null)
+  const [name, setName] = useState('')
+  const [meaning, setMeaning] = useState('')
   const [currentName, setCurrentName] = useState(null)
 
   const { deleteWord } = useContext(WordContext)
@@ -104,8 +105,8 @@ function TableComponent({ user }) {
   const handleClickOpen = () => {
     setOpenDialog(true)
     setDialogContent({ content: 'add' })
-    setName(null)
-    setMeaning(null)
+    setName('')
+    setMeaning('')
     setOpenAlert(false)
   }
   const handleClickEdit = (e) => {
@@ -142,14 +143,14 @@ function TableComponent({ user }) {
   }
   // console.log(Object.entries(user.Words))
   return (
-    <>
+    <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 500 }} aria-label='custom pagination table'>
+        <Table aria-label='custom pagination table'>
           <TableHead>
             <TableRow>
-              <TableCell>Number</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Meaning</TableCell>
+              <TableCell align='center'>Number</TableCell>
+              <TableCell align='center'>Name</TableCell>
+              <TableCell align='center'>Meaning</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -161,17 +162,12 @@ function TableComponent({ user }) {
                 )
               : Object.entries(user.Words)
             ).map(([name, meaning], i) => (
-              <TableRow
-                key={i}
-                sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                }}
-              >
-                <TableCell component='th' scope='row'>
+              <TableRow key={i} sx={{}}>
+                <TableCell component='th' scope='row' style={{ width: 1 }}>
                   {i + 1}
                 </TableCell>
-                <TableCell style={{ width: 160 }}>{name}</TableCell>
-                <TableCell style={{ width: 160 }}>{meaning}</TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{meaning}</TableCell>
                 <TableCell>
                   {' '}
                   <Tooltip
@@ -207,33 +203,34 @@ function TableComponent({ user }) {
               </TableRow>
             )}
           </TableBody>
+          <TableFooter sx={{ display: 'flex' }}>
+            <TableRow sx={{}}>
+              <TableCell>
+                <Tooltip title={<Typography variant='caption'>Add</Typography>}>
+                  <IconButton aria-label='add' onClick={handleClickOpen}>
+                    <AddCircleOutline />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+              <TablePagination
+                rowsPerPageOptions={[5, 15, 25, { label: 'All', value: -1 }]}
+                colSpan={3}
+                count={Object.entries(user.Words).length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    'aria-label': 'rows per page',
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
-        <TableFooter sx={{ display: 'flex' }}>
-          <Tooltip title={<Typography variant='caption'>Add</Typography>}>
-            <IconButton aria-label='add' onClick={handleClickOpen}>
-              <AddCircleOutline />
-            </IconButton>
-          </Tooltip>
-
-          <TableRow sx={{ display: 'inline-flex' }}>
-            <TablePagination
-              rowsPerPageOptions={[5, 15, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={Object.entries(user.Words).length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  'aria-label': 'rows per page',
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </TableContainer>
 
       <DialogComponent
@@ -248,7 +245,7 @@ function TableComponent({ user }) {
         setMeaning={setMeaning}
         currentName={currentName}
       />
-    </>
+    </div>
   )
 }
 

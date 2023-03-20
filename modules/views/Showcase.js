@@ -18,6 +18,15 @@ const Showcase = () => {
   const { user } = useContext(AuthContext)
   const router = useRouter()
 
+  const startHandle = (event) => {
+    event.preventDefault()
+    if (user === null) {
+      router.push(`/account/signup`)
+    } else {
+      router.push(`/account/profile`)
+    }
+  }
+
   const theme = createTheme({
     breakpoints: {
       values: {
@@ -148,11 +157,7 @@ const Showcase = () => {
                   <Button
                     color='buttonColor'
                     size='large'
-                    onClick={
-                      user === null
-                        ? () => router.push(`/account/signup`)
-                        : () => router.push(`/account/profile`)
-                    }
+                    onClick={startHandle}
                     sx={{
                       color: '#fff',
                       px: 6,

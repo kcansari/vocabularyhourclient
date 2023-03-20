@@ -20,7 +20,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import AuthContext from '@/context/AuthContext.js'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import LoginIcon from '@mui/icons-material/Login'
@@ -91,9 +91,14 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordVisibility, setPasswordVisibility] = useState(false)
+
   const { login, loginError, backDrop, setSignUpError } =
     useContext(AuthContext)
-  setSignUpError(null)
+
+  useEffect(() => {
+    setSignUpError(null)
+  }, [setSignUpError])
+
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
   }
@@ -106,248 +111,245 @@ function Login() {
   return (
     <ThemeProvider theme={themeLight}>
       <CssBaseline />
-      <>
-        <Box
-          component='form'
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            alignItems: 'center',
-            // border: 1,
-          }}
-        >
-          <Container>
-            {/* MAIN GRID */}
+
+      <Box
+        component='form'
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          // border: 1,
+        }}
+      >
+        <Container>
+          {/* MAIN GRID */}
+          <Grid
+            container
+            direction='column'
+            justifyContent='center'
+            alignItems='center'
+            spacing={4}
+            style={{ minHeight: '100vh' }}
+          >
+            {/* LOGO AND TEXT MAIN GRID */}
             <Grid
               container
+              item
+              direction='column'
+              justifyContent='space-evenly'
+              alignItems='center'
+              // spacing={2}
+              sx={{}}
+            >
+              {/* LOGO */}
+              <Grid item>
+                <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
+                  <LockPerson sx={{ fontSize: 60, color: '#EEEEEE' }} />
+                </Avatar>
+              </Grid>
+              {/* TEXT */}
+              <Grid item>
+                <Typography
+                  variant='h5'
+                  sx={{
+                    textTransform: 'uppercase',
+                    fontWeight: 'bold',
+                    color: '#143F6B',
+                    mt: 2,
+                  }}
+                >
+                  Login
+                </Typography>
+              </Grid>
+            </Grid>
+            {/* LOGO AND TEXT MAIN GRID */}
+            {/* EMAIL & PASSWORD & ERROR */}
+            <Grid
+              container
+              item
               direction='column'
               justifyContent='center'
               alignItems='center'
-              spacing={4}
-              style={{ minHeight: '100vh' }}
-              sx={
-                {
-                  // bgcolor: '#000',
-                  // border: 1,
-                  // borderColor: 'secondary.main',
-                }
-              }
+              sx={{}}
             >
-              {/* LOGO AND TEXT MAIN GRID */}
+              {/* EMAIL */}
               <Grid
-                container
                 item
-                direction='column'
-                justifyContent='space-evenly'
-                alignItems='center'
-                // spacing={2}
-                sx={{}}
+                sx={{
+                  width: {
+                    xs: widthXs,
+                    sm: widthSm,
+                    md: widthMd,
+                    lg: widthLg,
+                    xl: widthXl,
+                  },
+                }}
               >
-                {/* LOGO */}
-                <Grid item>
-                  <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
-                    <LockPerson sx={{ fontSize: 60, color: '#EEEEEE' }} />
-                  </Avatar>
-                </Grid>
-                {/* TEXT */}
-                <Grid item>
-                  <Typography
-                    variant='h5'
-                    sx={{
-                      textTransform: 'uppercase',
-                      fontWeight: 'bold',
-                      color: '#143F6B',
-                      mt: 2,
+                <Container>
+                  <CustomTextField
+                    fullWidth
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    sx={{ mb: 2 }}
+                  />
+                </Container>
+              </Grid>
+              {/* EMAIL */}
+
+              {/* PASSWORD */}
+              <Grid
+                item
+                sx={{
+                  width: {
+                    xs: widthXs,
+                    sm: widthSm,
+                    md: widthMd,
+                    lg: widthLg,
+                    xl: widthXl,
+                  },
+                }}
+              >
+                <Container>
+                  <CustomTextField
+                    fullWidth
+                    name='password'
+                    label='Password'
+                    id='password'
+                    autoComplete='new-password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    sx={{}}
+                    type={passwordVisibility ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          {' '}
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            edge='end'
+                          >
+                            {passwordVisibility ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
                     }}
+                  />
+                </Container>
+              </Grid>
+              {/* PASSWORD */}
+
+              {/* ERROR */}
+              <Grid
+                item
+                sx={{
+                  width: {
+                    xs: widthXs,
+                    sm: widthSm,
+                    md: widthMd,
+                    lg: widthLg,
+                    xl: widthXl,
+                  },
+                }}
+              >
+                <Container>
+                  {loginError && <BasicAlerts error={loginError} />}
+                </Container>
+              </Grid>
+              {/* ERROR */}
+            </Grid>
+            {/* EMAIL & PASSWORD & ERROR */}
+
+            {/* BUTTONS */}
+            <Grid
+              container
+              item
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              sx={{}}
+            >
+              {/* LOGIN BUTTON */}
+              <Grid
+                item
+                sx={{
+                  width: {
+                    xs: widthXs,
+                    sm: widthSm,
+                    md: widthMd,
+                    lg: widthLg,
+                    xl: widthXl,
+                  },
+                }}
+              >
+                <Container>
+                  <Button
+                    fullWidth
+                    color='buttonColor'
+                    size='large'
+                    onClick={handleSubmit}
+                    sx={{
+                      color: '#fff',
+
+                      '&:hover': {
+                        backgroundColor: '#3c52b2',
+                        color: '#fff',
+                      },
+                    }}
+                    variant='contained'
+                    endIcon={<LoginIcon />}
                   >
                     Login
-                  </Typography>
-                </Grid>
+                  </Button>
+                </Container>
               </Grid>
+              {/* LOGIN BUTTON */}
 
-              {/* EMAIL & PASSWORD & ERROR */}
+              {/* TEXT BUTTONS */}
               <Grid
                 container
                 item
-                direction='column'
                 justifyContent='center'
                 alignItems='center'
-                sx={{}}
+                spacing={2}
+                sx={{ mt: 1 }}
               >
-                {/* EMAIL */}
-                <Grid
-                  item
-                  sx={{
-                    width: {
-                      xs: widthXs,
-                      sm: widthSm,
-                      md: widthMd,
-                      lg: widthLg,
-                      xl: widthXl,
-                    },
-                  }}
-                >
-                  <Container>
-                    <CustomTextField
-                      fullWidth
-                      id='email'
-                      label='Email Address'
-                      name='email'
-                      autoComplete='email'
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      sx={{ mb: 2 }}
-                    />
-                  </Container>
+                <Grid item>
+                  {' '}
+                  <Link href='/account/forgotPassword'>
+                    <Typography variant='body2'>Forgot password?</Typography>
+                  </Link>
                 </Grid>
-                {/* EMAIL */}
-
-                {/* PASSWORD */}
-                <Grid
-                  item
-                  sx={{
-                    width: {
-                      xs: widthXs,
-                      sm: widthSm,
-                      md: widthMd,
-                      lg: widthLg,
-                      xl: widthXl,
-                    },
-                  }}
-                >
-                  <Container>
-                    <CustomTextField
-                      fullWidth
-                      name='password'
-                      label='Password'
-                      id='password'
-                      autoComplete='new-password'
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      sx={{}}
-                      type={passwordVisibility ? 'text' : 'password'}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position='end'>
-                            {' '}
-                            <IconButton
-                              onClick={handleClickShowPassword}
-                              edge='end'
-                            >
-                              {passwordVisibility ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Container>
-                </Grid>
-                {/* PASSWORD */}
-
-                {/* ERROR */}
-                <Grid
-                  item
-                  sx={{
-                    width: {
-                      xs: widthXs,
-                      sm: widthSm,
-                      md: widthMd,
-                      lg: widthLg,
-                      xl: widthXl,
-                    },
-                  }}
-                >
-                  <Container>
-                    {loginError && <BasicAlerts error={loginError} />}
-                  </Container>
-                </Grid>
-                {/* ERROR */}
-              </Grid>
-              {/* EMAIL & PASSWORD & ERROR */}
-
-              {/* BUTTONS */}
-              <Grid
-                container
-                item
-                direction='column'
-                justifyContent='center'
-                alignItems='center'
-                sx={{}}
-              >
-                {/* LOGIN BUTTON */}
-                <Grid
-                  item
-                  sx={{
-                    width: {
-                      xs: widthXs,
-                      sm: widthSm,
-                      md: widthMd,
-                      lg: widthLg,
-                      xl: widthXl,
-                    },
-                  }}
-                >
-                  <Container>
-                    <Button
-                      fullWidth
-                      color='buttonColor'
-                      size='large'
-                      onClick={handleSubmit}
-                      sx={{
-                        color: '#fff',
-
-                        '&:hover': {
-                          backgroundColor: '#3c52b2',
-                          color: '#fff',
-                        },
-                      }}
-                      variant='contained'
-                      endIcon={<LoginIcon />}
-                    >
-                      Login
-                    </Button>
-                  </Container>
-                </Grid>
-                {/* TEXT BUTTONS */}
-                <Grid
-                  container
-                  items
-                  justifyContent='center'
-                  alignItems='center'
-                  spacing={2}
-                  sx={{ mt: 1 }}
-                >
-                  <Grid item>
-                    {' '}
-                    <Link href='/account/forgotPassword'>
-                      <Typography variant='body2'>Forgot password?</Typography>
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href='/account/signup'>
-                      <Typography variant='body2'>
-                        Don&apos;t have an account?
-                      </Typography>
-                    </Link>
-                  </Grid>
+                <Grid item>
+                  <Link href='/account/signup'>
+                    <Typography variant='body2'>
+                      Don&apos;t have an account?
+                    </Typography>
+                  </Link>
                 </Grid>
               </Grid>
-              <Copyright />
+              {/* TEXT BUTTONS */}
             </Grid>
-          </Container>
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={backDrop}
-          >
-            <CircularProgress color='inherit' />
-          </Backdrop>
-        </Box>
-      </>
+            {/* BUTTONS */}
+            <Copyright />
+          </Grid>
+          {/* MAIN */}
+        </Container>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backDrop}
+        >
+          <CircularProgress color='inherit' />
+        </Backdrop>
+      </Box>
     </ThemeProvider>
   )
 }

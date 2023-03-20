@@ -13,6 +13,7 @@ import {
 import { useState, useContext, useEffect } from 'react'
 import WordContext from '@/context/WordContext'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles'
+
 import { LoadingButton } from '@mui/lab'
 import { Close, Save } from '@mui/icons-material'
 
@@ -64,8 +65,8 @@ function DialogComponent({
 
   const handleClose = () => {
     setOpenDialog(false)
-    setName(null)
-    setMeaning(null)
+    setName('')
+    setMeaning('')
   }
   const handleSave = () => {
     if (dialogContent.content === 'add') {
@@ -85,7 +86,7 @@ function DialogComponent({
 
   return (
     <ThemeProvider theme={theme}>
-      <Dialog open={openDialog} onClose={handleClose} fullWidth='md'>
+      <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle>
           {dialogContent.content === 'add' ? 'Add a New Word' : 'Edit the word'}
           <IconButton
@@ -101,6 +102,7 @@ function DialogComponent({
             <Close />
           </IconButton>
         </DialogTitle>
+
         <DialogContent>
           <DialogContentText>
             Do not forget practicing to learn the word
@@ -147,6 +149,7 @@ function DialogComponent({
             </Alert>
           </Collapse>
         </DialogContent>
+
         <DialogActions>
           <LoadingButton
             size='small'

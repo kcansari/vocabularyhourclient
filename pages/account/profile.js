@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, CssBaseline } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
@@ -9,6 +9,19 @@ import { useContext, useEffect } from 'react'
 import Verify from '@/modules/views/Verify'
 import ProfileTable from '@/modules/views/ProfileTable'
 import { useRouter } from 'next/router'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+
+const themeLight = createTheme({
+  palette: {
+    background: {
+      default: '#CFB997',
+    },
+    buttonColor: {
+      main: '#293462',
+      contrastText: '#fff',
+    },
+  },
+})
 
 function Profile({ user }) {
   const router = useRouter()
@@ -40,9 +53,10 @@ function Profile({ user }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+    <>
       <NavBar />
-      <Box>
+      <ThemeProvider theme={themeLight}>
+        <CssBaseline />
         {user.verified ? (
           <ProfileTable user={user} />
         ) : (
@@ -55,8 +69,8 @@ function Profile({ user }) {
             openSnack={openSnack}
           />
         )}
-      </Box>
-    </Box>
+      </ThemeProvider>
+    </>
   )
 }
 
@@ -77,7 +91,6 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       user,
-      token,
     },
   }
 }

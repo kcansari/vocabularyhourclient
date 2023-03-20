@@ -10,6 +10,8 @@ import {
   InputAdornment,
   Button,
   Switch,
+  Snackbar,
+  Container,
 } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import AuthContext from '@/context/AuthContext.js'
@@ -21,7 +23,9 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
+  Close,
   ManageAccounts,
+  RocketLaunch,
   SaveAsOutlined,
   Visibility,
   VisibilityOff,
@@ -90,7 +94,8 @@ function Settings({ user }) {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [checked, setChecked] = useState(false)
 
-  const { manageAccount, backDrop, editRespond } = useContext(AuthContext)
+  const { manageAccount, backDrop, editRespond, openSnack, setOpenSnack } =
+    useContext(AuthContext)
 
   const {
     register,
@@ -104,6 +109,28 @@ function Settings({ user }) {
   })
 
   const router = useRouter()
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenSnack(false)
+  }
+
+  const action = (
+    <>
+      <RocketLaunch sx={{ mr: 2, color: '#e32636' }} />
+      <IconButton
+        size='small'
+        aria-label='close'
+        color='inherit'
+        onClick={handleClose}
+      >
+        <Close fontSize='small' />
+      </IconButton>
+    </>
+  )
 
   const handleChange = (event) => {
     setChecked(event.target.checked)
@@ -139,163 +166,59 @@ function Settings({ user }) {
             minHeight: '100vh',
           }}
         >
-          {/* MAIN */}
-          <Grid
-            container
-            direction='column'
-            justifyContent='space-evenly'
-            alignItems='center'
-            spacing={4}
-            sx={{ mt: 2 }}
-          >
-            {/* LOGO AND TEXT */}
+          <Container>
+            {/* MAIN */}
             <Grid
               container
-              item
               direction='column'
               justifyContent='space-evenly'
               alignItems='center'
+              spacing={4}
+              sx={{ mt: 2 }}
             >
-              {/* LOGO */}
-              <Grid item>
-                <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
-                  <ManageAccounts sx={{ fontSize: 60, color: '#EEEEEE' }} />
-                </Avatar>
-              </Grid>
-              {/* LOGO */}
-
-              {/* TEXT */}
-              <Grid item>
-                <Typography
-                  variant='h5'
-                  sx={{
-                    textTransform: 'uppercase',
-                    fontWeight: 'bold',
-                    color: '#143F6B',
-                    mt: 2,
-                  }}
-                >
-                  Manage Account
-                </Typography>
-              </Grid>
-              {/* TEXT */}
-            </Grid>
-            {/* LOGO AND TEXT */}
-
-            {/* USERNAME & EMAIL &  PASSWORD & CONFIRM PASSWORD & BUTTON */}
-            <Grid
-              container
-              item
-              direction='column'
-              justifyContent='space-evenly'
-              alignItems='center'
-            >
-              {/* USERNAME */}
+              {/* LOGO AND TEXT */}
               <Grid
+                container
                 item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
+                direction='column'
+                justifyContent='space-evenly'
+                alignItems='center'
               >
-                <CustomTextField
-                  InputLabelProps={{ shrink: true }}
-                  disabled={!checked}
-                  margin='normal'
-                  required
-                  fullWidth
-                  id='username'
-                  label='Username'
-                  name='username'
-                  {...register('username')}
-                  error={errors.username ? true : false}
-                  helperText={errors.username?.message}
-                />
-              </Grid>
-              {/* USERNAME */}
+                {/* LOGO */}
+                <Grid item>
+                  <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
+                    <ManageAccounts sx={{ fontSize: 60, color: '#EEEEEE' }} />
+                  </Avatar>
+                </Grid>
+                {/* LOGO */}
 
-              {/* EMAIL */}
-              <Grid
-                item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
-              >
-                <CustomTextField
-                  InputLabelProps={{ shrink: true }}
-                  disabled
-                  margin='normal'
-                  required
-                  fullWidth
-                  value={user.email}
-                  id='email'
-                  label='Email Address'
-                  name='email'
-                  helperText='Email cannot be changed'
-                />
+                {/* TEXT */}
+                <Grid item>
+                  <Typography
+                    variant='h5'
+                    sx={{
+                      textTransform: 'uppercase',
+                      fontWeight: 'bold',
+                      color: '#143F6B',
+                      mt: 2,
+                    }}
+                  >
+                    Manage Account
+                  </Typography>
+                </Grid>
+                {/* TEXT */}
               </Grid>
-              {/* EMAIL */}
+              {/* LOGO AND TEXT */}
 
-              {/* PASSWORD */}
+              {/* USERNAME & EMAIL &  PASSWORD & CONFIRM PASSWORD & BUTTON */}
               <Grid
+                container
                 item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
+                direction='column'
+                justifyContent='space-evenly'
+                alignItems='center'
               >
-                <CustomTextField
-                  InputLabelProps={{ shrink: true }}
-                  disabled={!checked}
-                  margin='normal'
-                  required
-                  fullWidth
-                  id='password'
-                  label='Password'
-                  name='password'
-                  type={passwordVisibility ? 'text' : 'password'}
-                  autoComplete='password'
-                  {...register('password')}
-                  error={errors.password ? true : false}
-                  helperText={errors.password?.message}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        {' '}
-                        <IconButton
-                          onClick={handleClickShowPassword}
-                          edge='end'
-                        >
-                          {passwordVisibility ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              {/* PASSWORD */}
-              {/* CONFIRM PASSWORD */}
-              {checked && (
+                {/* USERNAME */}
                 <Grid
                   item
                   sx={{
@@ -310,87 +233,202 @@ function Settings({ user }) {
                 >
                   <CustomTextField
                     InputLabelProps={{ shrink: true }}
+                    disabled={!checked}
                     margin='normal'
                     required
                     fullWidth
-                    id='confirmPassword'
-                    label='Confirm Password'
-                    name='confirmPassword'
-                    type={passwordVisibility ? 'text' : 'password'}
-                    autoComplete='confirmPassword'
-                    {...register('confirmPassword')}
-                    error={errors.confirmPassword ? true : false}
-                    helperText={errors.confirmPassword?.message}
+                    id='username'
+                    label='Username'
+                    name='username'
+                    {...register('username')}
+                    error={errors.username ? true : false}
+                    helperText={errors.username?.message}
                   />
                 </Grid>
-              )}
-              {/* CONFIRM PASSWORD */}
+                {/* USERNAME */}
 
-              {/* SWITCH */}
-              <Grid
-                container
-                item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
-              >
-                <Switch
-                  checked={checked}
-                  onChange={handleChange}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                  color='warning'
-                />
-              </Grid>
-              {/* SWITCH */}
-
-              {/* BUTTON */}
-              <Grid
-                container
-                item
-                justifyContent='flex-end'
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                  mt: 2,
-                }}
-              >
-                <LoadingButton
-                  fullWidth
-                  loading={backDrop}
-                  disabled={!checked}
-                  type='submit'
-                  color='buttonColor'
-                  size='large'
+                {/* EMAIL */}
+                <Grid
+                  item
                   sx={{
-                    color: '#fff',
-
-                    '&:hover': {
-                      backgroundColor: '#3c52b2',
-                      color: '#fff',
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
                     },
                   }}
-                  variant='contained'
-                  endIcon={<SaveAsOutlined />}
                 >
-                  Save Changes
-                </LoadingButton>
+                  <CustomTextField
+                    InputLabelProps={{ shrink: true }}
+                    disabled
+                    margin='normal'
+                    required
+                    fullWidth
+                    value={user.email}
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    helperText='Email cannot be changed'
+                  />
+                </Grid>
+                {/* EMAIL */}
+
+                {/* PASSWORD */}
+                <Grid
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                  }}
+                >
+                  <CustomTextField
+                    InputLabelProps={{ shrink: true }}
+                    disabled={!checked}
+                    margin='normal'
+                    required
+                    fullWidth
+                    id='password'
+                    label='Password'
+                    name='password'
+                    type={passwordVisibility ? 'text' : 'password'}
+                    autoComplete='password'
+                    {...register('password')}
+                    error={errors.password ? true : false}
+                    helperText={errors.password?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          {' '}
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            edge='end'
+                          >
+                            {passwordVisibility ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                {/* PASSWORD */}
+                {/* CONFIRM PASSWORD */}
+                {checked && (
+                  <Grid
+                    item
+                    sx={{
+                      width: {
+                        xs: widthXs,
+                        sm: widthSm,
+                        md: widthMd,
+                        lg: widthLg,
+                        xl: widthXl,
+                      },
+                    }}
+                  >
+                    <CustomTextField
+                      InputLabelProps={{ shrink: true }}
+                      margin='normal'
+                      required
+                      fullWidth
+                      id='confirmPassword'
+                      label='Confirm Password'
+                      name='confirmPassword'
+                      type={passwordVisibility ? 'text' : 'password'}
+                      autoComplete='confirmPassword'
+                      {...register('confirmPassword')}
+                      error={errors.confirmPassword ? true : false}
+                      helperText={errors.confirmPassword?.message}
+                    />
+                  </Grid>
+                )}
+                {/* CONFIRM PASSWORD */}
+
+                {/* SWITCH */}
+                <Grid
+                  container
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                  }}
+                >
+                  <Switch
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    color='warning'
+                  />
+                </Grid>
+                {/* SWITCH */}
+
+                {/* BUTTON */}
+                <Grid
+                  container
+                  item
+                  justifyContent='flex-end'
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                    mt: 2,
+                  }}
+                >
+                  <LoadingButton
+                    fullWidth
+                    loading={backDrop}
+                    disabled={!checked}
+                    type='submit'
+                    color='buttonColor'
+                    size='large'
+                    sx={{
+                      color: '#fff',
+
+                      '&:hover': {
+                        backgroundColor: '#3c52b2',
+                        color: '#fff',
+                      },
+                    }}
+                    variant='contained'
+                    endIcon={<SaveAsOutlined />}
+                  >
+                    Save Changes
+                  </LoadingButton>
+                </Grid>
+                {/* BUTTON */}
               </Grid>
-              {/* BUTTON */}
+              {/* USERNAME & PASSWORD & CONFIRM PASSWORD & BUTTON & SWITCH*/}
             </Grid>
-            {/* USERNAME & PASSWORD & CONFIRM PASSWORD & BUTTON & SWITCH*/}
-          </Grid>
-          {/* MAIN */}
+            {/* MAIN */}
+            <Snackbar
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              open={openSnack}
+              autoHideDuration={3500}
+              onClose={handleClose}
+              message={`Your changes has been saved`}
+              action={action}
+              key={'bottom' + 'right'}
+            />
+          </Container>
         </Box>
       </ThemeProvider>
     </>

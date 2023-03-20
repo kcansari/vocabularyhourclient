@@ -42,8 +42,12 @@ function HideOnScroll(props) {
   )
 }
 
+function LinkTab(props) {
+  return <Tab component='a' {...props} />
+}
+
 function NavBar(props) {
-  const [value, setValue] = useState()
+  const [value, setValue] = useState(0)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const { user, logout, editRespond } = useContext(AuthContext)
@@ -89,7 +93,7 @@ function NavBar(props) {
 
   useEffect(() => {
     router.replace(router.asPath)
-  }, [user])
+  }, [editRespond])
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,6 +111,8 @@ function NavBar(props) {
 
               <UltraResponsiveGrid />
 
+              {/* BRAND & ICON SECTION */}
+
               {/* TAB SECTION */}
               {router.pathname === '/' && (
                 <Grid
@@ -116,7 +122,6 @@ function NavBar(props) {
                   lg={6}
                   xl={6}
                   sx={{
-                    // bgcolor: '#FFee',
                     display: {
                       xs: 'none',
                       sm: 'inline',
@@ -133,24 +138,10 @@ function NavBar(props) {
                     onChange={tabsHandler}
                     centered
                   >
-                    <a
-                      href='#features'
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <Tab label='Features' />
-                    </a>
-                    <a
-                      href='#references'
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <Tab label='References' />
-                    </a>
-                    <a
-                      href='#contact'
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <Tab label='Contact' />
-                    </a>
+                    <LinkTab label='Home' value={0} href='#' />
+                    <LinkTab label='Features' value={1} href='#features' />
+                    <LinkTab label='References' value={2} href='#references' />
+                    <LinkTab label='Contact' value={3} href='#contact' />
                   </Tabs>
                 </Grid>
               )}
@@ -268,6 +259,7 @@ function NavBar(props) {
                 )}
               </Grid>
 
+              {/* BUTTON SECTION */}
               {/* Burger MENU ICON */}
               <Grid
                 item
@@ -282,6 +274,7 @@ function NavBar(props) {
               >
                 <DrawerComponent auth={user} />
               </Grid>
+              {/* Burger MENU ICON */}
             </Grid>
           </Toolbar>
         </AppBar>
@@ -331,12 +324,14 @@ function UltraResponsiveGrid() {
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <Typography
-                  variant={{
-                    xs: 'h6',
-                    sm: 'h5',
-                    md: 'h5',
-                    lg: 'h5',
-                    xl: 'h5',
+                  sx={{
+                    typography: {
+                      xs: 'h6',
+                      sm: 'h5',
+                      md: 'h5',
+                      lg: 'h5',
+                      xl: 'h5',
+                    },
                   }}
                 >
                   Vocabulary Hour

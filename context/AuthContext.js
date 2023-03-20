@@ -166,11 +166,13 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setBackDrop(false)
+      setOpenSnack(true)
       setEditRespond(serverData)
       setUser(serverData.data.username)
     } else {
       setBackDrop(false)
       setEditRespond(serverData)
+      setOpenSnack(true)
     }
   }
 

@@ -66,9 +66,11 @@ export default function TemporaryDrawer(props) {
         <Divider />
 
         {router.pathname === '/' &&
-          ['Features', 'References', 'Contact'].map((text, index) => (
+          ['Home', 'Features', 'References', 'Contact'].map((text, index) => (
             <ListItem key={index} disablePadding>
-              <ListItemButton href={`#${text.toLowerCase()}`}>
+              <ListItemButton
+                href={text !== 'Home' ? `#${text.toLowerCase()}` : '#'}
+              >
                 <ListItemText sx={{ color: '#FFFF' }} primary={text} />
               </ListItemButton>
             </ListItem>

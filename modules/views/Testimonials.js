@@ -173,7 +173,7 @@ const Testimonials = () => {
               wrap='wrap'
             >
               {brands.map((brand, i) => (
-                <Grid key={i} Item>
+                <Grid key={i} item>
                   <Box
                     component='img'
                     src={brand.image}
