@@ -12,7 +12,6 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
-import Link from 'next/link'
 import Typography from '@mui/material/Typography'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,6 +20,7 @@ import Avatar from '@mui/material/Avatar'
 import { useState } from 'react'
 import * as yup from 'yup'
 import { Grid } from '@mui/material'
+import Layout from '@/modules/components/LayotComponent'
 
 const themeLight = createTheme({
   palette: {
@@ -123,224 +123,226 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <ThemeProvider theme={themeLight}>
-      <CssBaseline />
-      <Box
-        component='form'
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          width: '100%',
-          minHeight: '100vh',
-        }}
-      >
-        <Container>
-          {/* MAIN */}
-          <Grid
-            container
-            direction='column'
-            justifyContent='space-evenly'
-            alignItems='center'
-            spacing={4}
-            sx={{ mt: 2 }}
-          >
-            {/* LOGO AND TEXT MAIN GRID */}
+    <Layout title={'Reset Password Vocabular Hour'}>
+      <ThemeProvider theme={themeLight}>
+        <CssBaseline />
+        <Box
+          component='form'
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            width: '100%',
+            minHeight: '100vh',
+          }}
+        >
+          <Container>
+            {/* MAIN */}
             <Grid
               container
-              item
               direction='column'
               justifyContent='space-evenly'
               alignItems='center'
+              spacing={4}
+              sx={{ mt: 2 }}
             >
-              {/* LOGO */}
-              <Grid item>
-                <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
-                  <LockResetIcon sx={{ fontSize: 60, color: '#EEEEEE' }} />
-                </Avatar>
-              </Grid>
-              {/* LOGO */}
-
-              {/* Header TEXT */}
-              <Grid item>
-                <Typography
-                  sx={{
-                    textTransform: 'uppercase',
-                    fontWeight: 'bold',
-                    color: '#143F6B',
-                    mt: 2,
-                    typography: {
-                      xs: 'h5',
-                      sm: 'h4',
-                      md: 'h4',
-                      lg: 'h4',
-                      xl: 'h4',
-                    },
-                  }}
-                >
-                  Change password
-                </Typography>
-              </Grid>
-              {/* Header TEXT */}
-
-              {/* SUBTITLE TEXT */}
-              <Grid item>
-                <Typography
-                  variant='subtitle2'
-                  sx={{
-                    color: '#143F6B',
-                  }}
-                >
-                  Write your new password
-                </Typography>
-              </Grid>
-              {/* SUBTITLE TEXT */}
-            </Grid>
-            {/* LOGO AND TEXT MAIN GRID */}
-
-            {/* PASSWORD & CONFIRM PASSWORD & BUTTON  */}
-            <Grid
-              container
-              item
-              direction='column'
-              justifyContent='space-evenly'
-              alignItems='center'
-            >
-              {/* PASSWORD  */}
-              <Grid
-                item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
-              >
-                <CustomTextField
-                  margin='normal'
-                  required
-                  fullWidth
-                  id='password'
-                  label='Password'
-                  name='password'
-                  type={passwordVisibility ? 'text' : 'password'}
-                  autoComplete='password'
-                  {...register('password')}
-                  error={errors.password ? true : false}
-                  helperText={errors.password?.message}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        {' '}
-                        <IconButton
-                          onClick={handleClickShowPassword}
-                          edge='end'
-                        >
-                          {passwordVisibility ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              {/* PASSWORD */}
-
-              {/* CONFIRM PASSWORD  */}
-              <Grid
-                item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                }}
-              >
-                <CustomTextField
-                  margin='normal'
-                  required
-                  fullWidth
-                  id='confirmPassword'
-                  label='Confirm Password'
-                  name='confirmPassword'
-                  type={passwordVisibility ? 'text' : 'password'}
-                  autoComplete='confirmPassword'
-                  {...register('confirmPassword')}
-                  error={errors.confirmPassword ? true : false}
-                  helperText={errors.confirmPassword?.message}
-                />
-              </Grid>
-              {/* CONFIRM PASSWORD */}
-
-              {/* BUTTON */}
+              {/* LOGO AND TEXT MAIN GRID */}
               <Grid
                 container
                 item
-                sx={{
-                  width: {
-                    xs: widthXs,
-                    sm: widthSm,
-                    md: widthMd,
-                    lg: widthLg,
-                    xl: widthXl,
-                  },
-                  mt: 2,
-                }}
+                direction='column'
+                justifyContent='space-evenly'
+                alignItems='center'
               >
-                <LoadingButton
-                  fullWidth
-                  color='buttonColor'
-                  loading={isSubmitting}
-                  type='submit'
-                  sx={{
-                    color: '#fff',
+                {/* LOGO */}
+                <Grid item>
+                  <Avatar sx={{ width: 96, height: 96, bgcolor: '#A75D5D' }}>
+                    <LockResetIcon sx={{ fontSize: 60, color: '#EEEEEE' }} />
+                  </Avatar>
+                </Grid>
+                {/* LOGO */}
 
-                    '&:hover': {
-                      backgroundColor: '#3c52b2',
-                      color: '#fff',
+                {/* Header TEXT */}
+                <Grid item>
+                  <Typography
+                    sx={{
+                      textTransform: 'uppercase',
+                      fontWeight: 'bold',
+                      color: '#143F6B',
+                      mt: 2,
+                      typography: {
+                        xs: 'h5',
+                        sm: 'h4',
+                        md: 'h4',
+                        lg: 'h4',
+                        xl: 'h4',
+                      },
+                    }}
+                  >
+                    Change password
+                  </Typography>
+                </Grid>
+                {/* Header TEXT */}
+
+                {/* SUBTITLE TEXT */}
+                <Grid item>
+                  <Typography
+                    variant='subtitle2'
+                    sx={{
+                      color: '#143F6B',
+                    }}
+                  >
+                    Write your new password
+                  </Typography>
+                </Grid>
+                {/* SUBTITLE TEXT */}
+              </Grid>
+              {/* LOGO AND TEXT MAIN GRID */}
+
+              {/* PASSWORD & CONFIRM PASSWORD & BUTTON  */}
+              <Grid
+                container
+                item
+                direction='column'
+                justifyContent='space-evenly'
+                alignItems='center'
+              >
+                {/* PASSWORD  */}
+                <Grid
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
                     },
                   }}
-                  variant='contained'
-                  // endIcon={<PermIdentity />}
                 >
-                  Confirm
-                </LoadingButton>
+                  <CustomTextField
+                    margin='normal'
+                    required
+                    fullWidth
+                    id='password'
+                    label='Password'
+                    name='password'
+                    type={passwordVisibility ? 'text' : 'password'}
+                    autoComplete='password'
+                    {...register('password')}
+                    error={errors.password ? true : false}
+                    helperText={errors.password?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          {' '}
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            edge='end'
+                          >
+                            {passwordVisibility ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                {/* PASSWORD */}
+
+                {/* CONFIRM PASSWORD  */}
+                <Grid
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                  }}
+                >
+                  <CustomTextField
+                    margin='normal'
+                    required
+                    fullWidth
+                    id='confirmPassword'
+                    label='Confirm Password'
+                    name='confirmPassword'
+                    type={passwordVisibility ? 'text' : 'password'}
+                    autoComplete='confirmPassword'
+                    {...register('confirmPassword')}
+                    error={errors.confirmPassword ? true : false}
+                    helperText={errors.confirmPassword?.message}
+                  />
+                </Grid>
+                {/* CONFIRM PASSWORD */}
+
+                {/* BUTTON */}
+                <Grid
+                  container
+                  item
+                  sx={{
+                    width: {
+                      xs: widthXs,
+                      sm: widthSm,
+                      md: widthMd,
+                      lg: widthLg,
+                      xl: widthXl,
+                    },
+                    mt: 2,
+                  }}
+                >
+                  <LoadingButton
+                    fullWidth
+                    color='buttonColor'
+                    loading={isSubmitting}
+                    type='submit'
+                    sx={{
+                      color: '#fff',
+
+                      '&:hover': {
+                        backgroundColor: '#3c52b2',
+                        color: '#fff',
+                      },
+                    }}
+                    variant='contained'
+                    // endIcon={<PermIdentity />}
+                  >
+                    Confirm
+                  </LoadingButton>
+                </Grid>
+                {/* BUTTON */}
               </Grid>
-              {/* BUTTON */}
+              {/* PASSWORD & CONFIRM PASSWORD & BUTTON  */}
+              {/* ERROR */}
+              <Grid item>
+                {resetPasswordError && (
+                  <BasicAlerts
+                    error={resetPasswordError}
+                    severity={
+                      resetPasswordError ===
+                      'Your password has been changed successfully'
+                        ? 'success'
+                        : 'error'
+                    }
+                  />
+                )}
+              </Grid>
+              {/* ERROR */}
             </Grid>
-            {/* PASSWORD & CONFIRM PASSWORD & BUTTON  */}
-            {/* ERROR */}
-            <Grid item>
-              {resetPasswordError && (
-                <BasicAlerts
-                  error={resetPasswordError}
-                  severity={
-                    resetPasswordError ===
-                    'Your password has been changed successfully'
-                      ? 'success'
-                      : 'error'
-                  }
-                />
-              )}
-            </Grid>
-            {/* ERROR */}
-          </Grid>
-          {/* MAIN */}
-        </Container>
-      </Box>
-    </ThemeProvider>
+            {/* MAIN */}
+          </Container>
+        </Box>
+      </ThemeProvider>
+    </Layout>
   )
 }
 

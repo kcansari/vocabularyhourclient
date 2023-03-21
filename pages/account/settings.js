@@ -31,6 +31,7 @@ import {
   VisibilityOff,
 } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
+import Layout from '@/modules/components/LayotComponent'
 
 const themeLight = createTheme({
   palette: {
@@ -149,7 +150,7 @@ function Settings({ user }) {
   }, [editRespond])
 
   return (
-    <>
+    <Layout title={'Settings Page Vocabulary Hour'}>
       <NavBar />
       <ThemeProvider theme={themeLight}>
         <CssBaseline />
@@ -431,7 +432,7 @@ function Settings({ user }) {
           </Container>
         </Box>
       </ThemeProvider>
-    </>
+    </Layout>
   )
 }
 

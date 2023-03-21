@@ -7,7 +7,8 @@ function ProfileTable({ user }) {
     <Box
       sx={{
         display: 'flex',
-        flexWrap: 'wrap',
+        // flexWrap: 'wrap',
+        overflow: 'auto',
         justifyContent: 'center',
         alignItems: 'center',
         mt: 10,

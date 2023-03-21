@@ -91,8 +91,11 @@ export const AuthProvider = ({ children }) => {
     const res = await fetch(`${LOCAL_URL}/api/logout`, {
       method: 'POST',
     })
+    await res.json()
     if (res.ok) {
       setUser(null)
+      router.push('/')
+    } else {
       router.push('/')
     }
   }

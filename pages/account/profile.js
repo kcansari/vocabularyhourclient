@@ -10,6 +10,7 @@ import Verify from '@/modules/views/Verify'
 import ProfileTable from '@/modules/views/ProfileTable'
 import { useRouter } from 'next/router'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import Layout from '@/modules/components/LayotComponent'
 
 const themeLight = createTheme({
   palette: {
@@ -53,24 +54,33 @@ function Profile({ user }) {
   }
 
   return (
-    <>
-      <NavBar />
-      <ThemeProvider theme={themeLight}>
-        <CssBaseline />
-        {user.verified ? (
-          <ProfileTable user={user} />
-        ) : (
-          <Verify
-            resendVerifyMessage={resendVerifyMessage}
-            handleClose={handleClose}
-            userMail={user.email}
-            submitHandler={submitHandler}
-            backDrop={backDrop}
-            openSnack={openSnack}
-          />
-        )}
-      </ThemeProvider>
-    </>
+    <Layout title={'Profile Page Vocabulary Hour'}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <NavBar />
+        <ThemeProvider theme={themeLight}>
+          <CssBaseline />
+          {user.verified ? (
+            <ProfileTable user={user} />
+          ) : (
+            <Verify
+              resendVerifyMessage={resendVerifyMessage}
+              handleClose={handleClose}
+              userMail={user.email}
+              submitHandler={submitHandler}
+              backDrop={backDrop}
+              openSnack={openSnack}
+            />
+          )}
+        </ThemeProvider>
+      </Box>
+    </Layout>
   )
 }
 

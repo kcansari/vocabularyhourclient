@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 import { MarkEmailRead } from '@mui/icons-material'
+import Layout from '@/modules/components/LayotComponent'
 
 const themeLight = createTheme({
   palette: {
@@ -65,7 +66,7 @@ export default function VerifiedPage({ data }) {
   ]
 
   return (
-    <>
+    <Layout title={'Verify Account Vocabulary Hour'}>
       <ThemeProvider theme={themeLight}>
         <CssBaseline />
         <Box
@@ -147,7 +148,7 @@ export default function VerifiedPage({ data }) {
           </Container>
         </Box>
       </ThemeProvider>
-    </>
+    </Layout>
   )
 }
 

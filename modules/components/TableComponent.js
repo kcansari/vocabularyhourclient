@@ -151,7 +151,14 @@ function TableComponent({ user }) {
               <TableCell align='center'>Number</TableCell>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Meaning</TableCell>
-              <TableCell></TableCell>
+              <TableCell align='center'>
+                {' '}
+                <Tooltip title={<Typography variant='caption'>Add</Typography>}>
+                  <IconButton aria-label='add' onClick={handleClickOpen}>
+                    <AddCircleOutline />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -163,13 +170,17 @@ function TableComponent({ user }) {
               : Object.entries(user.Words)
             ).map(([name, meaning], i) => (
               <TableRow key={i} sx={{}}>
-                <TableCell component='th' scope='row' style={{ width: 1 }}>
+                <TableCell
+                  align='center'
+                  component='th'
+                  scope='row'
+                  // style={{ width: 1 }}
+                >
                   {i + 1}
                 </TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>{meaning}</TableCell>
-                <TableCell>
-                  {' '}
+                <TableCell align='center'>{name}</TableCell>
+                <TableCell align='center'>{meaning}</TableCell>
+                <TableCell align='center'>
                   <Tooltip
                     title={<Typography variant='caption'>Edit</Typography>}
                   >
@@ -182,6 +193,7 @@ function TableComponent({ user }) {
                       <BorderColorOutlined />
                     </IconButton>
                   </Tooltip>
+
                   <Tooltip
                     title={<Typography variant='caption'>Delete</Typography>}
                   >
@@ -203,18 +215,11 @@ function TableComponent({ user }) {
               </TableRow>
             )}
           </TableBody>
-          <TableFooter sx={{ display: 'flex' }}>
-            <TableRow sx={{}}>
-              <TableCell>
-                <Tooltip title={<Typography variant='caption'>Add</Typography>}>
-                  <IconButton aria-label='add' onClick={handleClickOpen}>
-                    <AddCircleOutline />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
+          <TableFooter>
+            <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 15, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
+                colSpan={4}
                 count={Object.entries(user.Words).length}
                 rowsPerPage={rowsPerPage}
                 page={page}

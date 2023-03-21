@@ -6,7 +6,9 @@ import Testimonials from '@/modules/views/Testimonials.js'
 import Contact from '@/modules/views/Contact.js'
 import Footer from '@/modules/views/Footer.js'
 import AuthContext from '@/context/AuthContext.js'
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
+import Layout from '@/modules/components/LayotComponent'
+
 export default function Home() {
   const { setLoginError, setSignUpError, setOpenMessage } =
     useContext(AuthContext)
@@ -18,19 +20,21 @@ export default function Home() {
   }, [setLoginError, setSignUpError, setOpenMessage])
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-      }}
-    >
-      <CssBaseline />
-      <NavBar />
-      <Showcase />
-      <Features />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </Box>
+    <Layout>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+        }}
+      >
+        <CssBaseline />
+        <NavBar />
+        <Showcase />
+        <Features />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </Box>
+    </Layout>
   )
 }
