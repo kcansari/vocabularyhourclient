@@ -90,7 +90,14 @@ const Showcase = () => {
   return (
     <ThemeProvider theme={theme}>
       <>
-        <Box sx={{ width: '100%', height: '720px', display: 'flex' }}>
+        <Box
+          sx={{
+            width: '100%',
+            height: '720px',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <Grid
             container
             direction={{
@@ -133,6 +140,7 @@ const Showcase = () => {
                       textTransform: 'uppercase',
                       fontWeight: 'bold',
                       color: '#143F6B',
+                      textAlign: 'center',
                     }}
                   >
                     Create word collection
