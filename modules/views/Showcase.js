@@ -193,7 +193,21 @@ const Showcase = () => {
               justifyContent='center'
               alignItems='center'
               wrap='nowrap'
-              sx={{ mb: 5 }}
+              sx={{
+                mb: {
+                  sm: 5,
+                  md: 5,
+                  lg: 12,
+                  xl: 12,
+                },
+                pb: {
+                  xs: 0,
+                  sm: 0,
+                  md: 0,
+                  lg: 10,
+                  xl: 10,
+                },
+              }}
             >
               {/* <Typography>{`xl=${imgXl} lg=${imgLg} md=${imgMd} sm=${imgSm} xs=${imgXs}`}</Typography> */}
               <Box
@@ -210,17 +224,6 @@ const Showcase = () => {
                   },
                   height: 'auto',
                   color: '#FFF',
-                  mb: {
-                    sm: 2,
-                    md: 2,
-                    lg: 2,
-                    xl: 8,
-                  },
-                  mt: {
-                    xs: 6,
-                    sm: 6,
-                    md: 6,
-                  },
                 }}
               />
             </Grid>
