@@ -425,7 +425,7 @@ function Settings({ user }) {
               open={openSnack}
               autoHideDuration={3500}
               onClose={handleClose}
-              message={`Your changes has been saved`}
+              message={`Your changes have been saved`}
               action={action}
               key={'bottom' + 'right'}
             />

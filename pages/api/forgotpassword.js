@@ -11,6 +11,7 @@ export default async (req, res) => {
       }
     )
     const result = await backendRes.json()
+
     if (backendRes.ok) {
       res.status(200).json({ result })
     } else {

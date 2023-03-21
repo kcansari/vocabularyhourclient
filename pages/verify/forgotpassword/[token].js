@@ -123,7 +123,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <Layout title={'Reset Password Vocabular Hour'}>
+    <Layout title={'Change Password Vocabulary Hour'}>
       <ThemeProvider theme={themeLight}>
         <CssBaseline />
         <Box
