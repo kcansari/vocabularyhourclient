@@ -76,7 +76,12 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is logged in
   const checkUserLoggedIn = async () => {
-    const res = await fetch(`${LOCAL_URL}/api/user`)
+    const res = await fetch(`${LOCAL_URL}/api/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     const data = await res.json()
 
     if (res.ok) {
