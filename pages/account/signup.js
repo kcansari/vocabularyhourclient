@@ -28,7 +28,6 @@ import AuthContext from '@/context/AuthContext.js'
 import { useState, useEffect, useContext } from 'react'
 import Layout from '@/modules/components/LayotComponent'
 import * as yup from 'yup'
-import { useRouter } from 'next/router'
 
 const themeLight = createTheme({
   palette: {
@@ -99,11 +98,9 @@ function Signup() {
 
   const { signUpUser, signUpError, backDrop, setLoginError } =
     useContext(AuthContext)
-  const router = useRouter()
 
   useEffect(() => {
     setLoginError(null)
-    router.replace(router.asPath)
   }, [setLoginError])
 
   const {
