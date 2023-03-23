@@ -1,5 +1,6 @@
 {
   "name": "vocabularyhourclient",
+  "homepage": "https://vocabularyhour-kcs.netlify.app/",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -29,6 +30,6 @@
     "react-material-ui-carousel": "^3.4.2",
     "styled-components": "^5.3.6",
     "yup": "^1.0.2"
-  },
-  "homepage": "."
+  }
+  
 }
