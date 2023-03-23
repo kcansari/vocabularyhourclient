@@ -1,21 +1,11 @@
 import { createContext, useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { LOCAL_URL } from '@/config/index'
-import { TroubleshootOutlined } from '@mui/icons-material'
 
 const WordContext = createContext()
 
 export const WordProvider = ({ children }) => {
   const [backDrop, setBackDrop] = useState(false)
   const [status, setStatus] = useState(false)
-  const [user, setUser] = useState(null)
-  const [loginError, setLoginError] = useState(null)
-  const [signUpError, setSignUpError] = useState(null)
-  const [resendVerifyMessage, setResendVerifyMessage] = useState(null)
-  const [openSnack, setOpenSnack] = useState(false)
-  const [respondForgotPassword, setRespondForgotPassword] = useState(null)
-  const [openMessage, setOpenMessage] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {}, [])
 

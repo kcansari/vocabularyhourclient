@@ -26,6 +26,7 @@ import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import LoginIcon from '@mui/icons-material/Login'
 import Link from 'next/link'
 import Layout from '@/modules/components/LayotComponent'
+import { useRouter } from 'next/router'
 
 const themeLight = createTheme({
   palette: {
@@ -96,9 +97,12 @@ function Login() {
   const { login, loginError, backDrop, setSignUpError } =
     useContext(AuthContext)
 
+  const router = useRouter()
+
   useEffect(() => {
     setSignUpError(null)
-  }, [setSignUpError])
+    router.replace(router.asPath)
+  }, [])
 
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
