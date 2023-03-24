@@ -1,11 +1,10 @@
-import React from 'react'
 import { Box, CssBaseline } from '@mui/material'
 import NavBar from '@/modules/views/AppBar.js'
 import { API_URL } from '@/config/index'
 import { parseCookies } from '@/helpers/index'
 import AuthContext from '@/context/AuthContext.js'
 import WordContext from '@/context/WordContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Verify from '@/modules/views/Verify'
 import ProfileTable from '@/modules/views/ProfileTable'
 import { useRouter } from 'next/router'
@@ -24,7 +23,10 @@ const themeLight = createTheme({
   },
 })
 
-function Profile({ user }) {
+function Profile({ token }) {
+  const [user, setUser] = useState({
+    verified: '',
+  })
   const router = useRouter()
   const {
     resendVerifyLink,
@@ -37,6 +39,20 @@ function Profile({ user }) {
   const { setrefreshControl, refreshControl } = useContext(WordContext)
 
   useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`${API_URL}/api/users/profile`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const data = await res.json()
+      setUser(data)
+    }
+    fetchData()
+    console.log('useEffect fetch')
+
     if (refreshControl) {
       router.replace(router.asPath)
       setrefreshControl(false)
@@ -70,6 +86,7 @@ function Profile({ user }) {
         <NavBar />
         <ThemeProvider theme={themeLight}>
           <CssBaseline />
+
           {user.verified === true && <ProfileTable user={user} />}
           {user.verified === false && (
             <Verify
@@ -91,19 +108,10 @@ export default Profile
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-  console.time('res')
-  const res = await fetch(`${API_URL}/api/users/profile`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
 
-  const user = await res.json()
-  console.timeEnd('res')
   return {
     props: {
-      user,
+      token,
     },
   }
 }

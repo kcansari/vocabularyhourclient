@@ -105,7 +105,7 @@ export default function ResetPasswordPage() {
       }),
     })
     const backendRes = await res.json()
-    console.log(backendRes)
+    // console.log(backendRes)
     if (res.ok) {
       setIsSubmitting(false)
       setResetPasswordError(backendRes.message)
