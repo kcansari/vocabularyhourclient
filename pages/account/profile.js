@@ -28,6 +28,7 @@ function Profile({ token }) {
     verified: '',
   })
   const router = useRouter()
+
   const {
     resendVerifyLink,
     backDrop,
@@ -38,32 +39,32 @@ function Profile({ token }) {
 
   const { setrefreshControl, refreshControl } = useContext(WordContext)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`${API_URL}/api/users/profile`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await fetch(`${API_URL}/api/users/profile`, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
 
-      const data = await res.json()
-      setUser(data)
-    }
-    fetchData()
-    console.log('useEffect fetch')
+  //     const data = await res.json()
+  //     setUser(data)
+  //   }
+  //   fetchData()
+  //   console.log('useEffect fetch')
 
-    if (refreshControl) {
-      router.replace(router.asPath)
-      setrefreshControl(false)
-      console.log('useEffect')
-    }
-  }, [refreshControl])
+  //   if (refreshControl) {
+  //     router.replace(router.asPath)
+  //     setrefreshControl(false)
+  //     console.log('useEffect')
+  //   }
+  // }, [refreshControl])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    resendVerifyLink(user._id)
-  }
+  // const submitHandler = (e) => {
+  //   e.preventDefault()
+  //   resendVerifyLink(user._id)
+  // }
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -86,9 +87,9 @@ function Profile({ token }) {
         <NavBar />
         <ThemeProvider theme={themeLight}>
           <CssBaseline />
-
-          {user.verified === true && <ProfileTable user={user} />}
-          {user.verified === false && (
+          profile
+          {/* {user.verified === true && <ProfileTable user={user} />} */}
+          {/* {user.verified === false && (
             <Verify
               resendVerifyMessage={resendVerifyMessage}
               handleClose={handleClose}
@@ -97,7 +98,7 @@ function Profile({ token }) {
               backDrop={backDrop}
               openSnack={openSnack}
             />
-          )}
+          )} */}
         </ThemeProvider>
       </Box>
     </Layout>
@@ -106,12 +107,12 @@ function Profile({ token }) {
 
 export default Profile
 
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req)
+// export async function getServerSideProps({ req }) {
+//   const { token } = parseCookies(req)
 
-  return {
-    props: {
-      token,
-    },
-  }
-}
+//   return {
+//     props: {
+//       token,
+//     },
+//   }
+// }
