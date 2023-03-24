@@ -63,11 +63,10 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json()
 
     if (res.ok) {
-      router.push('/account/profile')
-
       setUser(data.username)
       setSignUpError(null)
       setBackDrop(false)
+      router.push('/')
     } else {
       setBackDrop(false)
       setSignUpError(data.message)
@@ -76,12 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is logged in
   const checkUserLoggedIn = async () => {
-    const res = await fetch(`${LOCAL_URL}/api/user`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    const res = await fetch(`${LOCAL_URL}/api/user`)
     const data = await res.json()
 
     if (res.ok) {

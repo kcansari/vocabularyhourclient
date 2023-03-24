@@ -8,20 +8,16 @@ import Footer from '@/modules/views/Footer.js'
 import AuthContext from '@/context/AuthContext.js'
 import { useEffect, useContext } from 'react'
 import Layout from '@/modules/components/LayotComponent'
-import { useRouter } from 'next/router'
 
 export default function Home() {
   const { setLoginError, setSignUpError, setOpenMessage } =
     useContext(AuthContext)
 
-  const router = useRouter()
-
   useEffect(() => {
     setLoginError(null)
     setSignUpError(null)
     setOpenMessage(false)
-    router.replace(router.asPath)
-  }, [])
+  }, [setLoginError, setSignUpError, setOpenMessage])
 
   return (
     <Layout>
