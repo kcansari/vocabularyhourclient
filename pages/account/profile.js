@@ -107,12 +107,12 @@ function Profile({ token }) {
 
 export default Profile
 
-// export async function getServerSideProps({ req }) {
-//   const { token } = parseCookies(req)
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
 
-//   return {
-//     props: {
-//       token,
-//     },
-//   }
-// }
+  return {
+    props: {
+      token,
+    },
+  }
+}
