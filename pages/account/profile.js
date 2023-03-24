@@ -95,9 +95,10 @@ export async function getServerSideProps({ req }) {
       Authorization: `Bearer ${token}`,
     },
   })
+  // console.time('res')
 
   const user = await res.json()
-
+  // console.timeEnd('res')
   return {
     props: {
       user,

@@ -37,15 +37,14 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json()
 
     if (res.ok) {
+      // router.push('/account/profile')
       setBackDrop(false)
-
       setUser(data.username)
       setLoginError(null)
-
-      router.push('/account/profile')
     } else {
       setBackDrop(false)
       setLoginError(data.message)
+      setUser(null)
     }
   }
 
@@ -66,10 +65,11 @@ export const AuthProvider = ({ children }) => {
       setUser(data.username)
       setSignUpError(null)
       setBackDrop(false)
-      router.push('/')
+      // router.push('/account/profile')
     } else {
       setBackDrop(false)
       setSignUpError(data.message)
+      setUser(null)
     }
   }
 

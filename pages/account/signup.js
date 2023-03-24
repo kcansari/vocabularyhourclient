@@ -28,6 +28,7 @@ import AuthContext from '@/context/AuthContext.js'
 import { useState, useEffect, useContext } from 'react'
 import Layout from '@/modules/components/LayotComponent'
 import * as yup from 'yup'
+import { useRouter } from 'next/router'
 
 const themeLight = createTheme({
   palette: {
@@ -96,12 +97,20 @@ const validationSchema = yup
 function Signup() {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
 
-  const { signUpUser, signUpError, backDrop, setLoginError } =
+  const router = useRouter()
+
+  const { signUpUser, signUpError, backDrop, setLoginError, user } =
     useContext(AuthContext)
 
   useEffect(() => {
     setLoginError(null)
   }, [setLoginError])
+
+  useEffect(() => {
+    if (user !== null) {
+      router.push('/account/profile')
+    }
+  }, [user])
 
   const {
     register,
