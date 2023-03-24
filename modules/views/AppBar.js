@@ -87,8 +87,17 @@ function NavBar(props) {
     setAnchorEl(null)
   }
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault()
     logout()
+  }
+  const handleProfile = (e) => {
+    e.preventDefault()
+    router.push(`/account/profile`)
+  }
+  const handleSettings = (e) => {
+    e.preventDefault()
+    router.push(`/account/settings`)
   }
 
   useEffect(() => {
@@ -226,13 +235,11 @@ function NavBar(props) {
                       transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                      <MenuItem onClick={() => router.push(`/account/profile`)}>
+                      <MenuItem onClick={handleProfile}>
                         <Avatar /> Profile
                       </MenuItem>
                       <Divider />
-                      <MenuItem
-                        onClick={() => router.push(`/account/settings`)}
-                      >
+                      <MenuItem onClick={handleSettings}>
                         <ListItemIcon>
                           <Settings fontSize='small' />
                         </ListItemIcon>
@@ -350,13 +357,22 @@ function MyResponsiveButtons() {
   const matches = useMediaQuery(theme.breakpoints.up('md'))
   const router = useRouter()
 
+  const handleLogin = (e) => {
+    e.preventDefault()
+    router.push(`/account/login`)
+  }
+  const handleSignup = (e) => {
+    e.preventDefault()
+    router.push(`/account/signup`)
+  }
+
   return (
     <>
       <Button
         color='neutral'
         variant='outlined'
         size={matches ? 'medium' : 'small'}
-        onClick={() => router.push(`/account/login`)}
+        onClick={handleLogin}
         sx={{
           fontWeight: 'bold',
         }}
@@ -368,7 +384,7 @@ function MyResponsiveButtons() {
         color='navy'
         variant='contained'
         size={matches ? 'medium' : 'small'}
-        onClick={() => router.push(`/account/signup`)}
+        onClick={handleSignup}
         sx={{
           letterSpacing: '0.01px',
           fontWeight: 'bold',

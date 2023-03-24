@@ -103,12 +103,6 @@ function Login() {
     setSignUpError(null)
   }, [setSignUpError])
 
-  useEffect(() => {
-    if (user !== null) {
-      router.push('/account/profile')
-    }
-  }, [user])
-
   const handleClickShowPassword = () => {
     setPasswordVisibility(!passwordVisibility)
   }

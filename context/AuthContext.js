@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   // Login user
   const login = async ({ email, password }) => {
     setBackDrop(true)
+    console.time('res')
     const res = await fetch(`${LOCAL_URL}/api/login`, {
       method: 'POST',
       headers: {
@@ -37,10 +38,11 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json()
 
     if (res.ok) {
-      // router.push('/account/profile')
+      router.push('/account/profile')
       setBackDrop(false)
       setUser(data.username)
       setLoginError(null)
+      console.timeEnd('res')
     } else {
       setBackDrop(false)
       setLoginError(data.message)
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }) => {
   // Sign up
   const signUpUser = async (user) => {
     setBackDrop(true)
+    console.time('res')
     const res = await fetch(`${LOCAL_URL}/api/signup`, {
       method: 'POST',
       headers: {
@@ -62,10 +65,11 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json()
 
     if (res.ok) {
+      router.push('/account/profile')
       setUser(data.username)
       setSignUpError(null)
       setBackDrop(false)
-      // router.push('/account/profile')
+      console.timeEnd('res')
     } else {
       setBackDrop(false)
       setSignUpError(data.message)

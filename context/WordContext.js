@@ -6,8 +6,7 @@ const WordContext = createContext()
 export const WordProvider = ({ children }) => {
   const [backDrop, setBackDrop] = useState(false)
   const [status, setStatus] = useState(false)
-
-  useEffect(() => {}, [])
+  const [refreshControl, setrefreshControl] = useState(false)
 
   // Add a new word
   const addNewWord = async (name, meaning) => {
@@ -26,6 +25,7 @@ export const WordProvider = ({ children }) => {
     const data = await res.json()
     setStatus(data)
     setBackDrop(false)
+    setrefreshControl(true)
   }
   // Add a new word
   const editWord = async (name, meaning, currentName) => {
@@ -45,6 +45,7 @@ export const WordProvider = ({ children }) => {
     const data = await res.json()
     setStatus(data)
     setBackDrop(false)
+    setrefreshControl(true)
   }
 
   // Delete a word
@@ -61,6 +62,7 @@ export const WordProvider = ({ children }) => {
 
     const data = await res.json()
     setStatus(data)
+    setrefreshControl(true)
   }
 
   return (
@@ -72,6 +74,8 @@ export const WordProvider = ({ children }) => {
         status,
         deleteWord,
         editWord,
+        refreshControl,
+        setrefreshControl,
       }}
     >
       {children}

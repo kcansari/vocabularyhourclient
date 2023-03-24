@@ -106,12 +106,6 @@ function Signup() {
     setLoginError(null)
   }, [setLoginError])
 
-  useEffect(() => {
-    if (user !== null) {
-      router.push('/account/profile')
-    }
-  }, [user])
-
   const {
     register,
     handleSubmit,

@@ -34,11 +34,15 @@ function Profile({ user }) {
     setOpenSnack,
   } = useContext(AuthContext)
 
-  const { status } = useContext(WordContext)
+  const { setrefreshControl, refreshControl } = useContext(WordContext)
 
   useEffect(() => {
-    router.replace(router.asPath)
-  }, [status])
+    if (refreshControl) {
+      router.replace(router.asPath)
+      setrefreshControl(false)
+      console.log('useEffect')
+    }
+  }, [refreshControl])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -66,9 +70,8 @@ function Profile({ user }) {
         <NavBar />
         <ThemeProvider theme={themeLight}>
           <CssBaseline />
-          {user.verified ? (
-            <ProfileTable user={user} />
-          ) : (
+          {user.verified === true && <ProfileTable user={user} />}
+          {user.verified === false && (
             <Verify
               resendVerifyMessage={resendVerifyMessage}
               handleClose={handleClose}
@@ -88,17 +91,16 @@ export default Profile
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-
+  console.time('res')
   const res = await fetch(`${API_URL}/api/users/profile`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-  // console.time('res')
 
   const user = await res.json()
-  // console.timeEnd('res')
+  console.timeEnd('res')
   return {
     props: {
       user,
