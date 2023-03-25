@@ -50,7 +50,7 @@ function NavBar(props) {
   const [value, setValue] = useState(0)
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const { user, logout, editRespond } = useContext(AuthContext)
+  const { user, logout } = useContext(AuthContext)
   const router = useRouter()
 
   const theme = createTheme({
@@ -99,10 +99,6 @@ function NavBar(props) {
     e.preventDefault()
     router.push(`/account/settings`)
   }
-
-  useEffect(() => {
-    router.replace(router.asPath)
-  }, [editRespond])
 
   return (
     <ThemeProvider theme={theme}>

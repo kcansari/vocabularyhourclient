@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
   const [openSnack, setOpenSnack] = useState(false)
   const [respondForgotPassword, setRespondForgotPassword] = useState(null)
   const [openMessage, setOpenMessage] = useState(false)
-  const [editRespond, setEditRespond] = useState({})
+  const [editRespond, setEditRespond] = useState(false)
+  const [verifyData, setVerifyData] = useState(false)
   const [userData, setUserData] = useState({
     _id: '',
     verified: '',
@@ -190,13 +191,30 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setBackDrop(false)
       setOpenSnack(true)
-      setEditRespond(serverData)
+      setEditRespond(true)
       setUser(serverData.data.username)
     } else {
       setBackDrop(false)
-      setEditRespond(serverData)
+      setEditRespond(true)
       setOpenSnack(true)
     }
+  }
+
+  // Verify Mail
+  const verifyMail = async (id, token) => {
+    const res = await fetch(`${LOCAL_URL}/api/verifymail`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+        token: token,
+      }),
+    })
+
+    const serverData = await res.json()
+    setVerifyData(serverData)
   }
 
   return (
@@ -221,8 +239,11 @@ export const AuthProvider = ({ children }) => {
         setOpenMessage,
         manageAccount,
         editRespond,
+        setEditRespond,
         userData,
         profileData,
+        verifyMail,
+        verifyData,
       }}
     >
       {children}

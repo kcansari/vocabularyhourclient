@@ -1,10 +1,8 @@
 import { useRouter } from 'next/router'
-import { API_URL } from '@/config/index'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import NavBar from '@/modules/views/AppBar.js'
 import {
   Avatar,
   Button,
@@ -15,6 +13,8 @@ import {
 } from '@mui/material'
 import { MarkEmailRead } from '@mui/icons-material'
 import Layout from '@/modules/components/LayotComponent'
+import AuthContext from '@/context/AuthContext.js'
+import { useState, useEffect, useContext } from 'react'
 
 const themeLight = createTheme({
   palette: {
@@ -28,9 +28,18 @@ const themeLight = createTheme({
   },
 })
 
-export default function VerifiedPage({ data }) {
+export default function VerifiedPage() {
   const router = useRouter()
-  const { id } = router.query
+  const { id, token } = router.query
+
+  const { verifyMail, verifyData } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (router.isReady) {
+      verifyMail(id, token)
+      console.log('useEffect')
+    }
+  }, [router.isReady])
 
   const buttons = [
     <Button
@@ -64,7 +73,7 @@ export default function VerifiedPage({ data }) {
       Profile
     </Button>,
   ]
-
+  console.log(verifyData)
   return (
     <Layout title={'Verify Account Vocabulary Hour'}>
       <ThemeProvider theme={themeLight}>
@@ -124,13 +133,13 @@ export default function VerifiedPage({ data }) {
 
               {/* MESSAGE */}
               <Grid item>
-                {data.message === 'Email verified successfully' ? (
+                {verifyData.message === 'Email verified successfully' ? (
                   <Alert variant='filled' severity='success'>
-                    {data.message}, please sign in your account
+                    {verifyData.message}, please sign in your account
                   </Alert>
                 ) : (
                   <Alert variant='filled' severity='error'>
-                    {data.message}, please check your verify link
+                    {verifyData.message}, please check your verify link
                   </Alert>
                 )}
               </Grid>
@@ -152,14 +161,14 @@ export default function VerifiedPage({ data }) {
   )
 }
 
-export async function getServerSideProps({ query: { id, token } }) {
-  const res = await fetch(`${API_URL}/verify/${id}/${token}`)
+// export async function getServerSideProps({ query: { id, token } }) {
+//   const res = await fetch(`${API_URL}/verify/${id}/${token}`)
 
-  const data = await res.json()
+//   const data = await res.json()
 
-  return {
-    props: {
-      data: data,
-    },
-  }
-}
+//   return {
+//     props: {
+//       data: data,
+//     },
+//   }
+// }

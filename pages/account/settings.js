@@ -16,8 +16,6 @@ import {
 import NavBar from '@/modules/views/AppBar.js'
 import AuthContext from '@/context/AuthContext.js'
 import { useState, useEffect, useContext } from 'react'
-import { parseCookies } from '@/helpers/index'
-import { API_URL } from '@/config/index'
 import { useRouter } from 'next/router'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -95,8 +93,16 @@ function Settings({ user }) {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [checked, setChecked] = useState(false)
 
-  const { manageAccount, backDrop, editRespond, openSnack, setOpenSnack } =
-    useContext(AuthContext)
+  const {
+    manageAccount,
+    backDrop,
+    editRespond,
+    openSnack,
+    setOpenSnack,
+    profileData,
+    userData,
+    setEditRespond,
+  } = useContext(AuthContext)
 
   const {
     register,
@@ -105,7 +111,7 @@ function Settings({ user }) {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      username: user.username,
+      username: userData.username,
     },
   })
 
@@ -146,7 +152,12 @@ function Settings({ user }) {
   }
 
   useEffect(() => {
-    router.replace(router.asPath)
+    profileData()
+
+    if (editRespond) {
+      router.replace(router.asPath)
+      setEditRespond(false)
+    }
   }, [editRespond])
 
   return (
@@ -267,7 +278,7 @@ function Settings({ user }) {
                     margin='normal'
                     required
                     fullWidth
-                    value={user.email}
+                    value={userData.email}
                     id='email'
                     label='Email Address'
                     name='email'
@@ -437,23 +448,3 @@ function Settings({ user }) {
 }
 
 export default Settings
-
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req)
-
-  const res = await fetch(`${API_URL}/api/users/profile`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  const user = await res.json()
-
-  return {
-    props: {
-      user,
-      token,
-    },
-  }
-}
