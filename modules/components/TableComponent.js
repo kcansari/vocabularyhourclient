@@ -142,6 +142,7 @@ function TableComponent({ user }) {
     setPage(0)
   }
   // console.log(Object.entries(user.Words))
+
   return (
     <div>
       <TableContainer component={Paper}>

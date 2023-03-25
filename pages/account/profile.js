@@ -10,6 +10,7 @@ import ProfileTable from '@/modules/views/ProfileTable'
 import { useRouter } from 'next/router'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Layout from '@/modules/components/LayotComponent'
+import cookie from 'cookie'
 
 const themeLight = createTheme({
   palette: {
@@ -23,10 +24,7 @@ const themeLight = createTheme({
   },
 })
 
-function Profile({ token }) {
-  const [user, setUser] = useState({
-    verified: '',
-  })
+function Profile() {
   const router = useRouter()
 
   const {
@@ -35,36 +33,25 @@ function Profile({ token }) {
     resendVerifyMessage,
     openSnack,
     setOpenSnack,
+    profileData,
+    userData,
   } = useContext(AuthContext)
 
   const { setrefreshControl, refreshControl } = useContext(WordContext)
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch(`${API_URL}/api/users/profile`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
+  useEffect(() => {
+    profileData()
 
-  //     const data = await res.json()
-  //     setUser(data)
-  //   }
-  //   fetchData()
-  //   console.log('useEffect fetch')
+    if (refreshControl) {
+      router.replace(router.asPath)
+      setrefreshControl(false)
+    }
+  }, [refreshControl])
 
-  //   if (refreshControl) {
-  //     router.replace(router.asPath)
-  //     setrefreshControl(false)
-  //     console.log('useEffect')
-  //   }
-  // }, [refreshControl])
-
-  // const submitHandler = (e) => {
-  //   e.preventDefault()
-  //   resendVerifyLink(user._id)
-  // }
+  const submitHandler = (e) => {
+    e.preventDefault()
+    resendVerifyLink(userData._id)
+  }
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -87,18 +74,17 @@ function Profile({ token }) {
         <NavBar />
         <ThemeProvider theme={themeLight}>
           <CssBaseline />
-          profile
-          {/* {user.verified === true && <ProfileTable user={user} />} */}
-          {/* {user.verified === false && (
+          {userData.verified === true && <ProfileTable user={userData} />}
+          {userData.verified === false && (
             <Verify
               resendVerifyMessage={resendVerifyMessage}
               handleClose={handleClose}
-              userMail={user.email}
+              userMail={userData.email}
               submitHandler={submitHandler}
               backDrop={backDrop}
               openSnack={openSnack}
             />
-          )} */}
+          )}
         </ThemeProvider>
       </Box>
     </Layout>
@@ -106,13 +92,3 @@ function Profile({ token }) {
 }
 
 export default Profile
-
-export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req)
-
-  return {
-    props: {
-      token,
-    },
-  }
-}

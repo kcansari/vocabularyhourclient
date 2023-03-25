@@ -14,6 +14,10 @@ export const AuthProvider = ({ children }) => {
   const [respondForgotPassword, setRespondForgotPassword] = useState(null)
   const [openMessage, setOpenMessage] = useState(false)
   const [editRespond, setEditRespond] = useState({})
+  const [userData, setUserData] = useState({
+    _id: '',
+    verified: '',
+  })
   const router = useRouter()
 
   useEffect(() => {
@@ -79,7 +83,9 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is logged in
   const checkUserLoggedIn = async () => {
-    const res = await fetch(`${LOCAL_URL}/api/user`)
+    const res = await fetch(`${LOCAL_URL}/api/user`, {
+      method: 'GET',
+    })
     const data = await res.json()
 
     if (res.ok) {
@@ -87,6 +93,17 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUser(null)
     }
+  }
+
+  // User Profile Data
+  const profileData = async () => {
+    const res = await fetch(`${LOCAL_URL}/api/profile`, {
+      method: 'GET',
+    })
+
+    const data = await res.json()
+
+    setUserData(data)
   }
 
   //logout user
@@ -204,6 +221,8 @@ export const AuthProvider = ({ children }) => {
         setOpenMessage,
         manageAccount,
         editRespond,
+        userData,
+        profileData,
       }}
     >
       {children}
